@@ -1400,3 +1400,72 @@ main:has(> .band:last-child) + .site-footer {
 .art-artifact { fill: #8c93a0; font-family: var(--mono); font-size: 12px; }
 .art-alert rect { fill: #3fd68a; fill-opacity: 0.14; stroke: #3fd68a; stroke-width: 1; }
 .art-alert text { fill: #3fd68a; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; }
+
+/* ==========================================================================
+   Artwork v4: one large symbol per image, cinematic dark scene, brand stamp
+   ========================================================================== */
+.plate.plate-brand { color: #ff5a3c; }
+.plate.plate-notes { color: #a993ff; }
+.plate-hero { aspect-ratio: 5 / 4; }
+.hero-art { margin: 0; }
+.plate .art-meta { font-size: 14px; fill: #8a909c; }
+
+.art-floor path { stroke: #1b2029; stroke-width: 1; fill: none; }
+.em-stroke { stroke: currentColor; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.em-stroke-thin { stroke: currentColor; stroke-width: 2; fill: none; opacity: 0.7; }
+.em-fill { fill: #12151b; }
+.em-solid { fill: currentColor; }
+.em-shackle { stroke-width: 12; }
+.em-crack-base { stroke: #0d0f13; stroke-width: 9; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.em-crack-wide { stroke-width: 12; }
+.em-crack-run {
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 0.22 1;
+  stroke-dashoffset: 1.22;
+  animation: crack-run 2.8s linear infinite;
+}
+@keyframes crack-run {
+  to { stroke-dashoffset: 0; }
+}
+.em-spin { animation: spin 48s linear infinite; }
+.em-sweep { animation: spin 4s linear infinite; }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.em-wedge { fill: currentColor; fill-opacity: 0.22; }
+.em-blip { animation: hit 4s linear infinite backwards; }
+.em-print { stroke: currentColor; stroke-width: 2.4; fill: none; opacity: 0.85; stroke-linecap: round; }
+.em-scan { fill: currentColor; opacity: 0.55; animation: scan 2.6s ease-in-out infinite alternate; }
+@keyframes scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(150px); }
+}
+.em-handle { stroke: currentColor; stroke-width: 18; stroke-linecap: round; fill: none; }
+.em-drift { animation: drift 7s ease-in-out infinite alternate; }
+@keyframes drift {
+  from { transform: translate(-10px, -6px); }
+  to { transform: translate(10px, 6px); }
+}
+.em-prompt { fill: currentColor; font-family: var(--mono); font-size: 64px; font-weight: 700; }
+.em-blink { animation: blink 1.1s steps(1) infinite; }
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.em-stamp { fill: #e8e6e1; }
+.em-stamp-crack { stroke: #0d0f13; stroke-width: 3; fill: none; stroke-linejoin: round; }
+.art-brand { fill: #e8e6e1; font-family: var(--mono); font-size: 15px; font-weight: 600; letter-spacing: 0.26em; }
+.em-crack-glow { stroke: currentColor; stroke-width: 2; fill: none; opacity: 0.7; stroke-linejoin: round; }
+/* brand shield is drawn at scale(7): widths below are in its 32-unit space */
+.em-brand-base { stroke-width: 1.7; }
+.em-brand-glow { stroke-width: 0.3; }
+.em-brand-run { stroke-width: 0.55; }
+@media (max-width: 700px) {
+  .plate-wide .plate,
+  .cover-wide {
+    aspect-ratio: 16 / 10;
+  }
+}
