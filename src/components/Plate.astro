@@ -57,18 +57,26 @@ const spikes = Array.from({ length: 12 }, (_, i) => (i / 12) * Math.PI * 2 + ran
       <feGaussianBlur stdDeviation="6" result="b" />
       <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
     </filter>
+    <radialGradient id={`fadeg-${uid}`} cx="50%" cy="55%" r="55%">
+      <stop offset="0.35" stop-color="#fff" />
+      <stop offset="1" stop-color="#000" />
+    </radialGradient>
+    <mask id={`fade-${uid}`} maskUnits="userSpaceOnUse" x="0" y="0" width={W} height={H}>
+      <rect x="0" y="0" width={W} height={H} fill={`url(#fadeg-${uid})`} />
+    </mask>
     <clipPath id={`lens-${uid}`}><circle cx="-24" cy="-24" r="74" /></clipPath>
   </defs>
 
-  <rect class="art-bg" x="0" y="0" width={W} height={H} />
+  {/* the home-page version has no background so it sits on the page in light and dark mode */}
+  {!hero && <rect class="art-bg" x="0" y="0" width={W} height={H} />}
   <rect x="0" y="0" width={W} height={H} fill={`url(#halo-${uid})`} />
 
   <!-- floor -->
-  <g class="art-floor">
+  <g class="art-floor" mask={hero ? `url(#fade-${uid})` : undefined}>
     {floorV.map((x) => <path d={`M${CX} ${horizon - 40} L${x + CX} ${H + 40}`} />)}
     {floorH.map((y) => <path d={`M0 ${f(y)} H${W}`} />)}
   </g>
-  <rect x="0" y={horizon - 40} width={W} height="90" fill={`url(#floor-${uid})`} />
+  {!hero && <rect x="0" y={horizon - 40} width={W} height="90" fill={`url(#floor-${uid})`} />}
 
   <!-- pulse rings behind the subject -->
   {[0, 1, 2].map((k) => <circle class={`art-ring p-pulse p-pulse-${k}`} cx={CX} cy={CY} r="150" />)}

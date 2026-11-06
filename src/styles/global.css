@@ -1469,3 +1469,20 @@ main:has(> .band:last-child) + .site-footer {
     aspect-ratio: 16 / 10;
   }
 }
+
+/* Home-page artwork: transparent, takes on the page colours in both themes */
+:root { --spark: #e2412a; }
+:root[data-theme='dark'] { --spark: #ffffff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { --spark: #ffffff; }
+}
+.plate.plate-hero {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.plate-hero .art-floor path { stroke: var(--rule); }
+.plate-hero .em-fill { fill: var(--bg); }
+.plate-hero .em-crack-base { stroke: var(--bg); }
+.plate-hero .em-crack-run { stroke: var(--spark); }
