@@ -1,7 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Plate from '../../components/Plate.astro';
+import Cover from '../../components/Cover.astro';
+import Authors from '../../components/Authors.astro';
 import { SITE, TOPICS } from '../../data/site';
 import { getResearch, formatDate, readingTime, type Research } from '../../data/research';
 
@@ -27,7 +28,7 @@ const subject = encodeURIComponent(`Correction: ${d.title}`);
         <h1>{d.title}</h1>
         <p class="dek">{d.summary}</p>
         <div class="byline">
-          <span>By <b>{d.authors.join(', ')}</b></span>
+          <span>By <Authors authors={d.authors} /></span>
           <span>Published <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time></span>
           {d.updated && <span>Updated <time datetime={d.updated.toISOString()}>{formatDate(d.updated)}</time></span>}
           <span>{readingTime(post.body)}</span>
@@ -35,7 +36,7 @@ const subject = encodeURIComponent(`Correction: ${d.title}`);
       </div>
     </header>
     <div class="plate-wide">
-      <Plate seed={post.id} topic={d.topic} label={topic.label} />
+      <Cover post={post} wide />
     </div>
     <div class="wrap article-body">
       {d.findings && (

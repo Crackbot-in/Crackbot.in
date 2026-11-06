@@ -1,0 +1,22 @@
+---
+// A post's cover: its own image if the Markdown sets `cover`, otherwise generated art.
+import Plate from './Plate.astro';
+import type { Research } from '../data/research';
+import { TOPICS } from '../data/site';
+interface Props { post: Research; wide?: boolean; }
+const { post, wide = false } = Astro.props;
+const d = post.data;
+---
+{d.cover ? (
+  <img
+    class={wide ? 'cover cover-wide' : 'cover'}
+    src={d.cover.src}
+    width={d.cover.width}
+    height={d.cover.height}
+    alt={d.coverAlt ?? ''}
+    loading={wide ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+) : (
+  <Plate seed={post.id} topic={d.topic} label={wide ? TOPICS[d.topic].label : TOPICS[d.topic].short} />
+)}

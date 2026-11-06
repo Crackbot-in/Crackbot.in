@@ -1331,3 +1331,72 @@ main:has(> .band:last-child) + .site-footer {
   opacity: 0;
   pointer-events: none;
 }
+
+/* ==========================================================================
+   Artwork v3: dark "console" panels (same in light and dark mode),
+   in the style of threat-research report figures.
+   ========================================================================== */
+.figure svg { color: #ff6b4a; }
+.plate { background: #0d0f13; border-color: #0d0f13; border-radius: 4px; }
+.plate.plate-vulnerabilities { color: #ff6b4a; }
+.plate.plate-malware { color: #ffb23e; }
+.plate.plate-intelligence { color: #5aa2ff; }
+.plate.plate-forensics { color: #3fd68a; }
+.plate.plate-notes { color: #ff6b4a; }
+.cover { width: 100%; height: auto; border-radius: 4px; background: var(--bg-sunk); }
+.cover-wide { aspect-ratio: 21 / 8; object-fit: cover; }
+
+.art-bg { fill: #0d0f13; }
+.art-grid { stroke: #171b22; stroke-width: 1; fill: none; }
+.art-rule { stroke: #252a33; stroke-width: 1; fill: none; }
+.art-meta { fill: #737a87; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; }
+.art-label { fill: #8c93a0; font-family: var(--mono); font-size: 15px; }
+.art-accent { fill: currentColor; }
+.art-code { fill: #d9d7d1; font-family: var(--mono); font-size: 20px; }
+.art-big { fill: #cfcdc7; font-family: var(--mono); font-size: 22px; }
+.art-tickline { stroke: #3a404c; stroke-width: 1.5; fill: none; }
+.art-edge { stroke: #2c323d; stroke-width: 1.5; fill: none; }
+.art-ridge { stroke: #5b6270; stroke-width: 1.5; fill: none; }
+.art-occlude { fill: #0d0f13; }
+.art-dot { fill: #5b6270; }
+.art-dot-hot { fill: currentColor; }
+.art-ring { stroke: currentColor; stroke-width: 1.5; fill: none; }
+.art-cursor { stroke: currentColor; stroke-width: 2; fill: none; }
+.art-hot-line { stroke: currentColor; stroke-width: 3; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.art-area { fill: currentColor; fill-opacity: 0.08; }
+.art-band-hot { fill: currentColor; fill-opacity: 0.12; }
+.art-cell { fill: #151920; stroke: #3a404c; stroke-width: 1.5; }
+.art-fill { fill: currentColor; fill-opacity: 0.28; }
+.art-fill-bad { fill-opacity: 0.9; }
+.art-hot-text { fill: currentColor; font-family: var(--mono); font-size: 20px; font-weight: 600; }
+.art-evt { fill: #4a515e; animation: evt 8s linear infinite backwards; }
+.art-evt-hot { fill: currentColor; }
+.art-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 8s ease-in-out infinite; }
+
+.art-fill,
+.art-hot-text,
+.art-card-hl,
+.art-node-hot,
+.art-alert {
+  animation: hit 8s linear infinite backwards;
+}
+
+/* hero */
+.art-rail { stroke: #2c323d; stroke-width: 2; fill: none; }
+.art-rail-hot { stroke: currentColor; stroke-width: 2; fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; animation: rail 8s linear infinite; }
+@keyframes rail {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  75% { stroke-dashoffset: 0; opacity: 1; }
+  88% { stroke-dashoffset: 0; opacity: 0; }
+  100% { stroke-dashoffset: 1; opacity: 0; }
+}
+.art-card-hl { fill: #161b22; stroke: currentColor; stroke-opacity: 0.45; stroke-width: 1; }
+.art-node { fill: #0d0f13; stroke: #4a515e; stroke-width: 2; }
+.art-node-hot { fill: currentColor; }
+.art-packet { fill: #ffffff; }
+.art-id { fill: currentColor; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; }
+.art-tactic { fill: #737a87; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; }
+.art-name { fill: #ecebe6; font-family: var(--sans); font-size: 16px; font-weight: 600; }
+.art-artifact { fill: #8c93a0; font-family: var(--mono); font-size: 12px; }
+.art-alert rect { fill: #3fd68a; fill-opacity: 0.14; stroke: #3fd68a; stroke-width: 1; }
+.art-alert text { fill: #3fd68a; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; }

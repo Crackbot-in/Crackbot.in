@@ -12,7 +12,7 @@ npm audit       # check dependencies
 ```
 
 ## Publishing research
-Add a Markdown file to `src/content/research/`:
+Copy `src/content/research/_TEMPLATE.md`, rename it, and fill it in. It shows every field: authors with optional links, a cover image, findings, IOC tables. Short version:
 
 ```md
 ---

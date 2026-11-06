@@ -1,86 +1,63 @@
 ---
-// Fig. 1: a hex view of a sample being scanned by a detection rule.
-// A scan band moves down the dump; matching bytes light up as it reaches them,
-// and the rule below ticks off each string. SVG + CSS only, no JavaScript.
-// Timing: 8s loop, 16 rows, so row i is reached at i * 0.5s (CSS classes d0..d15).
-
-let s = 0x1badb002;
-const rnd = () => { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; return (s >>> 0) % 256; };
-
-const ROWS = 16, COLS = 16;
-const bytes: number[][] = Array.from({ length: ROWS }, () => Array.from({ length: COLS }, () => rnd()));
-
-// planted content
-const put = (r: number, c: number, arr: number[]) => arr.forEach((b, i) => (bytes[r][c + i] = b));
-put(0, 0, [0x4d, 0x5a, 0x90, 0x00, 0x03, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00]);
-put(1, 0, [0xb8, 0, 0, 0, 0, 0, 0, 0, 0x40, 0, 0, 0, 0, 0, 0, 0]);
-const url = [...'http://x.test'].map((ch) => ch.charCodeAt(0));
-put(6, 3, url);
-put(11, 5, [0x8b, 0x45, 0xf8, 0x33, 0xc1]);
-
-const hits: Record<string, number> = {};
-const mark = (r: number, c: number, n: number) => { for (let i = 0; i < n; i++) hits[`${r}:${c + i}`] = r; };
-mark(0, 0, 2);
-mark(6, 3, url.length);
-mark(11, 5, 5);
-
-const hex = (n: number) => n.toString(16).toUpperCase().padStart(2, '0');
-const asc = (n: number) => (n >= 0x20 && n < 0x7f ? String.fromCharCode(n) : '.');
-
-const TOP = 46, RH = 17, HX = 62, HW = 20.5, AX = 404, AW = 7.6;
-const ruleY = 352;
-const rule = [
-  { t: 'rule loader_demo {', d: -1 },
-  { t: '  strings:', d: -1 },
-  { t: '    $mz  = { 4D 5A }', d: 0 },
-  { t: '    $url = "http://"', d: 6 },
-  { t: '    $xor = { 8B 45 ?? 33 C1 }', d: 11 },
-  { t: '  condition: $mz at 0 and all of them', d: 14 },
-  { t: '}', d: -1 },
+// Fig. 1: an intrusion mapped to MITRE ATT&CK techniques, in the style of an incident write-up.
+// A marker moves down the chain; each step lights up as it is reached; an alert fires at C2.
+// SVG + CSS only, no JavaScript. Timing: 8s loop, steps reached every 1.5s (classes d0,d3,d6,d9,d12).
+// IPs are from 203.0.113.0/24 (reserved for documentation).
+const steps = [
+  { id: 'T1566.001', name: 'Spearphishing attachment', art: 'invoice_0193.lnk', tactic: 'Initial access' },
+  { id: 'T1204.002', name: 'User runs malicious file', art: 'rundll32.exe loader.dll,Start', tactic: 'Execution' },
+  { id: 'T1071.001', name: 'C2 over HTTPS', art: '203.0.113.7:443  beacon every 60s', tactic: 'Command & control', alert: true },
+  { id: 'T1560.001', name: 'Data staged in archive', art: 'C:\\ProgramData\\a.7z  412 MB', tactic: 'Collection' },
+  { id: 'T1041', name: 'Exfiltration over C2', art: 'a.7z  to  203.0.113.7', tactic: 'Exfiltration' },
 ];
+const X0 = 46, Y0 = 92, STEP = 80;
+const railTop = Y0, railBottom = Y0 + STEP * (steps.length - 1);
 ---
 <figure class="figure">
-  <svg viewBox="0 0 560 480" role="img" aria-labelledby="fig1-title">
-    <title id="fig1-title">A hex dump of a file being scanned by a detection rule; matching bytes are highlighted.</title>
+  <svg viewBox="0 0 560 470" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">An example intrusion in five steps, each labelled with its MITRE ATT&CK technique, with an alert raised at the command-and-control step.</title>
+    <defs>
+      <filter id="hero-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="b" />
+        <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
 
-    <rect x="0.5" y="0.5" width="559" height="318" class="hx-panel" />
-    <path d="M0.5 26 H559.5" class="hx-rule" />
-    <text x="12" y="17" class="hx-head">sample.bin</text>
-    <text x="548" y="17" class="hx-head" text-anchor="end">4,096 bytes · scanning</text>
+    <rect class="art-bg" x="0" y="0" width="560" height="470" rx="6" />
+    {Array.from({ length: 13 }, (_, i) => <path class="art-grid" d={`M${(i + 1) * 40} 44 V470`} />)}
+    <text class="art-meta" x="22" y="28">INCIDENT RECONSTRUCTION</text>
+    <text class="art-meta" x="538" y="28" text-anchor="end">MITRE ATT&amp;CK · EXAMPLE DATA</text>
+    <path class="art-rule" d="M0 44 H560" />
 
-    <!-- scan band -->
-    <g class="anim">
-      <rect x="1" y={TOP - 12} width="558" height={RH} class="hx-band">
-        <animateTransform attributeName="transform" type="translate" from="0 0" to={`0 ${ROWS * RH}`} dur="8s" repeatCount="indefinite" />
-      </rect>
-    </g>
+    <path class="art-rail" d={`M${X0} ${railTop} V${railBottom}`} />
+    <path class="art-rail-hot" d={`M${X0} ${railTop} V${railBottom}`} pathLength="1" />
 
-    {bytes.map((row, r) => (
-      <g>
-        <text x="12" y={TOP + r * RH} class="hx-off">{(r * 16).toString(16).toUpperCase().padStart(4, '0')}</text>
-        {row.map((b, c) => {
-          const h = hits[`${r}:${c}`];
-          return (
-            <g>
-              {h !== undefined && <rect x={HX + c * HW - 3} y={TOP + r * RH - 11} width="18" height="14" class={`hx-hit d${h}`} />}
-              {h !== undefined && <rect x={AX + c * AW - 0.5} y={TOP + r * RH - 11} width={AW} height="14" class={`hx-hit d${h}`} />}
-              <text x={HX + c * HW} y={TOP + r * RH} class={h !== undefined ? 'hx-byte hx-byte-hit' : 'hx-byte'}>{hex(b)}</text>
+    {steps.map((s, i) => {
+      const y = Y0 + i * STEP;
+      return (
+        <g>
+          <rect class={`art-card-hl d${i * 3}`} x="70" y={y - 30} width="472" height="64" rx="4" />
+          <circle class="art-node" cx={X0} cy={y} r="8" />
+          <circle class={`art-node-hot d${i * 3}`} cx={X0} cy={y} r="8" filter="url(#hero-glow)" />
+          <text class="art-id" x="86" y={y - 8}>{s.id}</text>
+          <text class="art-tactic" x="526" y={y - 8} text-anchor="end">{s.tactic.toUpperCase()}</text>
+          <text class="art-name" x="86" y={y + 12}>{s.name}</text>
+          <text class="art-artifact" x="86" y={y + 28}>{s.art}</text>
+          {s.alert && (
+            <g class={`art-alert d${i * 3 + 1}`}>
+              <rect x="420" y={y + 4} width="106" height="22" rx="3" />
+              <text x="473" y={y + 19} text-anchor="middle">ALERT RAISED</text>
             </g>
-          );
-        })}
-        <text x={AX} y={TOP + r * RH} class="hx-asc" textLength={COLS * AW} lengthAdjust="spacing">{row.map(asc).join('')}</text>
-      </g>
-    ))}
+          )}
+        </g>
+      );
+    })}
 
-    <!-- rule -->
-    {rule.map((l, i) => (
-      <g>
-        <text x="12" y={ruleY + i * 17} class="hx-code">{l.t}</text>
-        {l.d >= 0 && (
-          <text x="548" y={ruleY + i * 17} text-anchor="end" class={`hx-tick d${l.d}`}>{i === 5 ? 'MATCH' : 'found'}</text>
-        )}
-      </g>
-    ))}
+    <g class="anim">
+      <circle class="art-packet" r="5" cx={X0} cy={railTop} filter="url(#hero-glow)">
+        <animate attributeName="cy" values={`${railTop};${railBottom};${railBottom}`} keyTimes="0;0.75;1" dur="8s" repeatCount="indefinite" />
+      </circle>
+    </g>
   </svg>
-  <figcaption><b>Fig. 1</b> A detection rule finding the bytes it looks for inside a file.</figcaption>
+  <figcaption><b>Fig. 1</b> An intrusion broken into MITRE ATT&amp;CK techniques, the way we write incidents up. Example data.</figcaption>
 </figure>

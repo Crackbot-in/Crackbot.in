@@ -1,0 +1,10 @@
+---
+// Byline names. Each author is a plain name or { name, url }.
+import type { Research } from '../data/research';
+interface Props { authors: Research['data']['authors']; }
+const { authors } = Astro.props;
+const list = authors.map((a) => (typeof a === 'string' ? { name: a, url: undefined } : a));
+---
+{list.map((a, i) => (
+  <>{i > 0 && (i === list.length - 1 ? ' and ' : ', ')}{a.url ? <a href={a.url} rel="noopener noreferrer"><b>{a.name}</b></a> : <b>{a.name}</b>}</>
+))}

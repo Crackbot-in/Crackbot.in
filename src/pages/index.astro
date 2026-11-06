@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import HeroFigure from '../components/HeroFigure.astro';
-import Plate from '../components/Plate.astro';
+import Cover from '../components/Cover.astro';
 import ResearchList from '../components/ResearchList.astro';
 import { SITE, TOPICS, PRINCIPLES, type TopicKey } from '../data/site';
 import { getResearch, formatDate, readingTime } from '../data/research';
@@ -33,7 +33,7 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
     </div>
     {lead && (
       <a class="feature" href={`/research/${lead.id}/`}>
-        <Plate seed={lead.id} topic={lead.data.topic} label={TOPICS[lead.data.topic].short} />
+        <Cover post={lead} />
         <div>
           <div class="meta">
             <span class={`topic topic-${lead.data.topic}`}>{TOPICS[lead.data.topic].short}</span>
