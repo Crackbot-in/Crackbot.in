@@ -6,14 +6,14 @@ const site = siteData;
 ---
 
 <footer class="border-t border-[var(--border-primary)] bg-[var(--bg-secondary)] mt-auto no-print" role="contentinfo">
-  <div class="container py-10 lg:py-14">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+  <div class="container py-6 lg:py-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3 text-sm text-[var(--text-tertiary)]">
         <span class="font-mono text-[var(--text-quaternary)]">system@crackbot:~$</span>
         <span>{site.tagline}</span>
       </div>
 
-      <div class="flex items-center gap-6 text-sm text-[var(--text-secondary)]">
+      <div class="flex items-center gap-5 text-sm text-[var(--text-secondary)]">
         <a
           href={site.github}
           target="_blank"
@@ -44,7 +44,7 @@ const site = siteData;
       </div>
     </div>
 
-    <p class="mt-8 text-center text-xs text-[var(--text-quaternary)]">
+    <p class="mt-5 text-center text-xs text-[var(--text-quaternary)]">
       © {new Date().getFullYear()} {site.name} • {site.tagline}
     </p>
   </div>
