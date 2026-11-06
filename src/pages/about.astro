@@ -1,89 +1,21 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import principlesData from '../data/principles.json';
-
-const { principles } = principlesData;
+import Page from '../layouts/Page.astro';
+import { PRINCIPLES, SITE } from '../data/site';
 ---
-
-<Layout
+<Page
   title="About"
-  description="Crackbot is an independent, community-driven cybersecurity research group — our mission, our principles, and where we are headed."
+  label="About"
+  heading="About Crackbot"
+  intro="A security research group and think tank."
 >
-  <section class="section" aria-labelledby="about-heading">
-    <div class="container">
-      <header class="text-center max-w-3xl mx-auto mb-14">
-        <h1 id="about-heading" class="section-heading">About Crackbot</h1>
-        <p class="section-subheading mt-4">
-          Independent. Community-driven. Defender-first.
-        </p>
-      </header>
+  <p>We all work in cyber security. Crackbot is how we give something back to the community we learned from: we research, write up what we find, and share tools when they are ready.</p>
+  <p>We are independent, and nobody outside the group decides what we publish.</p>
 
-      <div class="prose-content max-w-3xl mx-auto mb-16">
-        <p class="text-lg">
-          Crackbot is an independent, community-driven cybersecurity research group focused on ethical research, responsible disclosure, open knowledge, and collaboration.
-        </p>
-        <p>
-          We conduct research on vulnerabilities and malware, publish technical analysis, develop open-source security tooling, and share actionable threat intelligence with the defender community.
-        </p>
-        <p>
-          Everything we release under the Crackbot name follows our research principles — ethics before exploitation, evidence over assumptions, and coordinated responsible disclosure.
-        </p>
-      </div>
+  <h2>How we work</h2>
+  <ul>
+    {PRINCIPLES.map((p) => <li><strong>{p.title}.</strong> {p.body}</li>)}
+  </ul>
 
-      <div class="grid md:grid-cols-3 gap-6 mb-16">
-        {[
-          {
-            title: 'Publish Open Research',
-            body: 'Weekly technical posts and threat reports, annual white papers and original research recognized by the security community.',
-          },
-          {
-            title: 'Build in the Open',
-            body: 'Open-source security and forensic tools, curated datasets, IOC feeds and research repositories anyone can use and audit.',
-          },
-          {
-            title: 'Grow the Community',
-            body: 'Mentor students and aspiring researchers, collaborate with academia and industry, and share what we learn freely.',
-          },
-        ].map((item) => (
-          <article class="card p-6">
-            <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">{item.title}</h2>
-            <p class="text-sm text-[var(--text-secondary)] leading-relaxed">{item.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="mb-16">
-        <header class="text-center mb-10">
-          <h2 class="section-heading">Our Principles</h2>
-          <p class="section-subheading">Eight rules that gate every finding before publication.</p>
-        </header>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {principles.map((p) => (
-            <article class="card p-5">
-              <p class="font-mono text-xs text-[var(--accent-primary)] mb-2">{p.id}</p>
-              <h3 class="font-semibold text-sm text-[var(--text-primary)] mb-2">{p.title}</h3>
-              <p class="text-xs text-[var(--text-tertiary)] leading-relaxed">{p.description}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div class="max-w-3xl mx-auto">
-        <header class="text-center mb-10">
-          <h2 class="section-heading">The Team</h2>
-          <p class="section-subheading">
-            A collaborative group of researchers, analysts and engineers. Individual profiles are published
-            alongside the first attributed research releases.
-          </p>
-        </header>
-        <div class="card p-8 text-center">
-          <span class="font-mono text-[var(--accent-primary)]">$ whoami</span>
-          <p class="mt-4 text-sm text-[var(--text-secondary)]">
-            Team Crackbot — operating across vulnerability research, malware analysis, DFIR and applied AI.
-            We keep a low profile until the work speaks.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-</Layout>
+  <h2>Find us</h2>
+  <p>Our code is on <a href={SITE.github} rel="noopener noreferrer">GitHub</a>. For anything else, see the <a href="/contact/">contact page</a>.</p>
+</Page>

@@ -1,0 +1,21 @@
+---
+import { NAV } from '../data/site';
+import Mark from './Mark.astro';
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(href);
+---
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Crackbot home"><Mark /> Crackbot</a>
+    <nav class="nav" aria-label="Main">
+      {NAV.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" data-mode="auto" aria-label="Change theme" hidden>
+      <svg class="ti ti-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 4 A8 8 0 0 1 12 20 Z" class="ti-fill" /></svg>
+      <svg class="ti ti-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" /></svg>
+      <svg class="ti ti-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" /></svg>
+    </button>
+  </div>
+</header>
