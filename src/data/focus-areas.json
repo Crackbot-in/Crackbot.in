@@ -1,0 +1,52 @@
+{
+  "focusAreas": [
+    {
+      "id": "threat-intel",
+      "title": "Threat Intelligence",
+      "description": "Monitor, investigate, and document emerging cyber threats, threat actors, vulnerabilities, data breaches, and attack campaigns. Aggregate RSS feeds, security advisories, and vulnerability databases. Track ransomware campaigns and underground forum activity.",
+      "tags": ["Threat Actors", "Ransomware", "IOCs", "Dark Web", "Advisories"],
+      "status": "active",
+      "icon": "radar"
+    },
+    {
+      "id": "vuln-research",
+      "title": "Vulnerability Research & VAPT",
+      "description": "Identify organizations with published vulnerability disclosure policies. Participate in authorized bug bounty programs. Conduct VAPT engagements with written authorization. Research critical vulnerabilities affecting public infrastructure. Publish sanitized technical findings and advisories.",
+      "tags": ["Web Security", "API Security", "Bug Bounty", "Disclosure", "Recon"],
+      "status": "active",
+      "icon": "bug"
+    },
+    {
+      "id": "dfir",
+      "title": "Digital Forensics & DFIR",
+      "description": "Explore new forensic acquisition and analysis techniques. Develop forensic utilities and parsers. Research Windows, Linux, Android, and cloud artifacts. Incident response, evidence analysis, and investigation workflows.",
+      "tags": ["Memory Forensics", "Disk Analysis", "Timeline", "Artifacts", "IR"],
+      "status": "building",
+      "icon": "search"
+    },
+    {
+      "id": "malware",
+      "title": "Malware Research",
+      "description": "Analyze malware samples in isolated environments. Reverse engineering, malware behavior analysis, family classification. Publish forensic case studies and technical writeups. Experiment with AI-assisted malware investigations.",
+      "tags": ["Reverse Engineering", "Behavioral Analysis", "YARA", "C2 Tracking", "Classification"],
+      "status": "building",
+      "icon": "terminal"
+    },
+    {
+      "id": "ai-security",
+      "title": "AI-Enabled Cybersecurity",
+      "description": "AI-assisted VAPT workflows. Automated vulnerability triage. LLM-based threat intelligence extraction. Automated IOC extraction and classification. Malware behavior analysis. AI-assisted forensic and security report generation.",
+      "tags": ["LLM Security", "Auto-Triage", "Vuln Discovery", "Report Gen", "Detection Eng"],
+      "status": "research",
+      "icon": "sparkles"
+    },
+    {
+      "id": "osint",
+      "title": "OSINT & Infrastructure Mapping",
+      "description": "Public intelligence gathering, infrastructure mapping, attack surface analysis. Develop automated reconnaissance workflows. Track threat actor infrastructure and identify pivot points.",
+      "tags": ["Reconnaissance", "Asset Discovery", "Attribution", "Pivoting", "Surface Mgmt"],
+      "status": "planned",
+      "icon": "globe"
+    }
+  ]
+}

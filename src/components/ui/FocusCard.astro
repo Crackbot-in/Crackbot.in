@@ -1,0 +1,78 @@
+---
+// FocusCard.astro - Professional research area card
+import Badge from './Badge.astro';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+
+interface FocusArea {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  tags: string[];
+  status: 'active' | 'building' | 'research' | 'planned';
+}
+
+interface Props {
+  area: FocusArea;
+  index: number;
+}
+
+const { area, index } = Astro.props;
+const delay = index * 100;
+
+const sectionLink: Record<string, string> = {
+  'threat-intel': '/blog',
+  'vuln-research': '/blog',
+  'dfir': '/blog',
+  'malware': '/blog',
+  'ai-security': '/blog',
+  'osint': '/blog',
+};
+const cardHref = sectionLink[area.id] ?? '/research';
+---
+
+<article
+  class="card group"
+  style={`animation-delay: ${delay}ms`}
+  data-area={area.id}
+>
+  <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)]/30 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+
+  <div class="p-6 sm:p-7 lg:p-8">
+    <div class="flex items-start gap-4 sm:gap-5">
+      <div class="relative flex-shrink-0 w-14 h-14 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-primary)] flex items-center justify-center group-hover:border-[var(--accent-primary)]/50 group-hover:bg-[var(--accent-primary-light)] transition-all duration-300">
+        <Icon name={area.icon} size="lg" class="text-[var(--accent-primary)]" />
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-4 mb-3">
+          <h3 class="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
+            {area.title}
+          </h3>
+          <Badge variant={area.status} pulse={area.status !== 'planned'}>
+            {area.status.toUpperCase()}
+          </Badge>
+        </div>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">{area.description}</p>
+        <div class="flex flex-wrap gap-1.5 mb-5">
+          {area.tags.slice(0, 4).map(tag => (
+            <span class="tag">{tag}</span>
+          ))}
+          {area.tags.length > 4 && (
+            <span class="tag text-[var(--text-quaternary)]">+{area.tags.length - 4} more</span>
+          )}
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          href={cardHref}
+          icon="arrowRight"
+          iconPosition="right"
+          class="group-hover:justify-start"
+        >
+          View Research
+        </Button>
+      </div>
+    </div>
+  </div>
+</article>

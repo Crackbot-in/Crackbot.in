@@ -1,0 +1,38 @@
+---
+// CTA.astro - Call to action section
+import siteData from '../../data/site.json';
+import Button from '../ui/Button.astro';
+
+const site = siteData;
+---
+
+<section class="section bg-[var(--bg-tertiary)]" aria-labelledby="cta-heading">
+  <div class="container">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 id="cta-heading" class="section-heading">Ready to Contribute?</h2>
+      <p class="section-subheading mt-4">
+        We're building a community of researchers, analysts, and engineers. Whether you hunt bugs, analyze malware, write tools, or publish papers — there's a place here.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Button
+          variant="primary"
+          size="lg"
+          href={site.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          icon="github"
+          iconPosition="left"
+        >
+          Join on GitHub
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          href={site.contact}
+        >
+          Email Us
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+{
+  "name": "Crackbot",
+  "tagline": "Independent Cybersecurity Research Group",
+  "description": "Crackbot conducts cybersecurity research, publishes technical analysis, develops security tools and shares actionable threat intelligence to help researchers, defenders and the broader security community.",
+  "url": "https://crackbot.in",
+  "github": "https://github.com/Crackbot-in",
+  "twitter": "https://x.com/CrackB0t",
+  "discord": "https://discord.gg/crackbot",
+  "contact": "mailto:system@crackbot.in",
+  "support": "mailto:support@crackbot.in",
+  "disclosure": "mailto:system@crackbot.in"
+}

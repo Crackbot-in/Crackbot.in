@@ -1,0 +1,36 @@
+{
+  "tools": [
+    {
+      "id": "crackbot-framework",
+      "name": "Crackbot Framework",
+      "description": "Core automation framework powering our research workflows — modular plugins for scanning, parsing, and analysis. CLI-first, easily scriptable.",
+      "status": "in-development",
+      "tags": ["Python", "Framework", "Automation"],
+      "repo": null
+    },
+    {
+      "id": "ioc-collector",
+      "name": "IOC Collector",
+      "description": "Aggregates, normalizes and deduplicates indicators of compromise from multiple intelligence sources into STIX-compliant feeds for defenders.",
+      "status": "planned",
+      "tags": ["Threat Intel", "STIX/TAXII", "Feed Generation"],
+      "repo": null
+    },
+    {
+      "id": "artifact-parsers",
+      "name": "Forensic Artifact Parsers",
+      "description": "A suite of parsers for Windows and Linux forensic artifacts — prefetch, shellbags, jump lists, journal files and more.",
+      "status": "planned",
+      "tags": ["DFIR", "Parsers", "Windows", "Linux"],
+      "repo": null
+    },
+    {
+      "id": "yara-library",
+      "name": "YARA Rule Library",
+      "description": "Community YARA rules developed from our malware analysis work, with detection coverage notes and false-positive guidance.",
+      "status": "planned",
+      "tags": ["Malware", "Detection", "YARA"],
+      "repo": null
+    }
+  ]
+}

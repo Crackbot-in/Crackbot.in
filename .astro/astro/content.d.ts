@@ -140,7 +140,16 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		
+		"blog": {
+"introducing-crackbot.md": {
+	id: "introducing-crackbot.md";
+  slug: "introducing-crackbot";
+  body: string;
+  collection: "blog";
+  data: any
+} & { render(): Render[".md"] };
+};
+
 	};
 
 	type DataEntryMap = {

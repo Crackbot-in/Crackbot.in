@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import siteData from '../data/site.json';
+
+const site = siteData;
+
+const channels = [
+  {
+    label: 'General',
+    email: site.contact,
+    body: 'Questions, collaboration, community, anything about the group.',
+  },
+  {
+    label: 'Support',
+    email: site.support,
+    body: 'Support for our published tools, feeds and reports.',
+  },
+  {
+    label: 'Disclosure & Vendors',
+    email: site.disclosure,
+    body: 'If you are a vendor who has received a report from us — reply directly. Our disclosures include coordination timelines and safe-harbor language.',
+  },
+];
+---
+
+<Layout
+  title="Contact"
+  description="Reach the Crackbot research group — general inquiries, support, and coordinated responsible disclosure channels."
+>
+  <section class="section" aria-labelledby="contact-heading">
+    <div class="container max-w-4xl">
+      <header class="text-center mb-14">
+        <h1 id="contact-heading" class="section-heading">Get in Touch</h1>
+        <p class="section-subheading mt-4">
+          Pick the right channel — we read everything and respond fast.
+        </p>
+      </header>
+
+      <div class="grid gap-5 mb-14">
+        {channels.map((ch) => (
+          <a href={`mailto:${ch.email}`} class="card group p-5 flex items-start justify-between gap-4">
+            <div>
+              <p class="font-mono text-xs text-[var(--accent-primary)] mb-1.5">{ch.label}</p>
+              <p class="text-sm text-[var(--text-secondary)] leading-relaxed">{ch.body}</p>
+            </div>
+            <span class="font-mono text-sm text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors whitespace-nowrap">{ch.email}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="space-y-5">
+        <article class="card p-6">
+          <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Responsible Disclosure</h2>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+            Report security issues in our platform or tools to
+            <a href={`mailto:${site.disclosure}`} class="link">system@crackbot.in</a>.
+            We practice coordinated vulnerability disclosure: report to us first, we acknowledge quickly,
+            we coordinate publicly, and credit is given unless you prefer otherwise.
+          </p>
+        </article>
+        <article class="card p-6 bg-[var(--bg-tertiary)]">
+          <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Community</h2>
+          <div class="flex flex-wrap gap-4 text-sm">
+            <a href={site.github} target="_blank" rel="noopener noreferrer" class="link">GitHub →</a>
+            <a href={site.twitter} target="_blank" rel="noopener noreferrer" class="link">X / Twitter →</a>
+            <a href={site.discord} target="_blank" rel="noopener noreferrer" class="link">Discord →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
