@@ -1,0 +1,29 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ResearchList from '../../../components/ResearchList.astro';
+import { TOPICS, type TopicKey } from '../../../data/site';
+import { getResearch } from '../../../data/research';
+
+export function getStaticPaths() {
+  return Object.keys(TOPICS).map((topic) => ({ params: { topic } }));
+}
+const topic = Astro.params.topic as TopicKey;
+const t = TOPICS[topic];
+const posts = (await getResearch()).filter((p) => p.data.topic === topic);
+---
+<Base title={t.label} description={t.blurb}>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="label">Research / {t.short}</p>
+      <h1>{t.label}</h1>
+      <p>{t.blurb}</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <nav class="filters" aria-label="Filter by topic">
+      <a href="/research/">All</a>
+      {Object.entries(TOPICS).map(([k, x]) => <a href={`/research/topic/${k}/`} aria-current={k === topic ? 'page' : undefined}>{x.short}</a>)}
+    </nav>
+    <ResearchList items={posts} />
+  </div>
+</Base>

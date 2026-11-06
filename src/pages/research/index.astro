@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResearchList from '../../components/ResearchList.astro';
+import { TOPICS } from '../../data/site';
+import { getResearch } from '../../data/research';
+const posts = await getResearch();
+---
+<Base title="Research" description="Reports, advisories and analysis from Crackbot.">
+  <header class="page-head">
+    <div class="wrap">
+      <p class="label">Research</p>
+      <h1>Reports, advisories and field notes</h1>
+      <p>Everything we’ve published, newest first. Vulnerability details appear only after the vendor has had a fair chance to fix them.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <nav class="filters" aria-label="Filter by topic">
+      <a href="/research/" aria-current="page">All</a>
+      {Object.entries(TOPICS).map(([k, t]) => <a href={`/research/topic/${k}/`}>{t.short}</a>)}
+    </nav>
+    <ResearchList items={posts} />
+  </div>
+</Base>

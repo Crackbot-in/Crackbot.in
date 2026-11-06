@@ -1,0 +1,43 @@
+---
+import { SITE, TOPICS } from '../data/site';
+import Mark from './Mark.astro';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="/" aria-label="Crackbot, home"><Mark /> Crackbot</a>
+        <p>An independent security research group. We publish what we find, with the evidence attached.</p>
+      </div>
+      <div>
+        <h2>Research</h2>
+        <ul>
+          {Object.entries(TOPICS).map(([key, t]) => (
+            <li><a href={`/research/topic/${key}/`}>{t.short}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Group</h2>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/disclosure/">Disclosure policy</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href={SITE.github} rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="/rss.xml">RSS feed</a></li>
+          <li><a href="/.well-known/security.txt">security.txt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© {year} Crackbot. Research published under CC BY 4.0 unless noted.</span>
+      <span>No cookies, no trackers, no scripts.</span>
+    </div>
+  </div>
+</footer>

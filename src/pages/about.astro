@@ -1,89 +1,45 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import principlesData from '../data/principles.json';
-
-const { principles } = principlesData;
+import Page from '../layouts/Page.astro';
+import { PRINCIPLES, SITE } from '../data/site';
 ---
-
-<Layout
+<Page
   title="About"
-  description="Crackbot is an independent, community-driven cybersecurity research group — our mission, our principles, and where we are headed."
+  label="About"
+  heading="A small group with a simple job"
+  intro="Find out how attacks actually work, explain it clearly, and help the people defending against them."
 >
-  <section class="section" aria-labelledby="about-heading">
-    <div class="container">
-      <header class="text-center max-w-3xl mx-auto mb-14">
-        <h1 id="about-heading" class="section-heading">About Crackbot</h1>
-        <p class="section-subheading mt-4">
-          Independent. Community-driven. Defender-first.
-        </p>
-      </header>
+  <p>
+    Crackbot started as a handful of people doing security research in their spare time: reversing samples,
+    chasing odd bugs, rebuilding incidents from logs. The work was good, but it lived in private notes where it
+    helped nobody. We formed the group to change that, and to hold each other to a higher standard than any of us
+    would manage alone.
+  </p>
+  <p>
+    We’re independent. We don’t sell products, and no vendor decides what we publish or when. That independence only
+    means something if it comes with discipline, so we have a few rules we don’t bend.
+  </p>
 
-      <div class="prose-content max-w-3xl mx-auto mb-16">
-        <p class="text-lg">
-          Crackbot is an independent, community-driven cybersecurity research group focused on ethical research, responsible disclosure, open knowledge, and collaboration.
-        </p>
-        <p>
-          We conduct research on vulnerabilities and malware, publish technical analysis, develop open-source security tooling, and share actionable threat intelligence with the defender community.
-        </p>
-        <p>
-          Everything we release under the Crackbot name follows our research principles — ethics before exploitation, evidence over assumptions, and coordinated responsible disclosure.
-        </p>
-      </div>
+  <h2>What we hold ourselves to</h2>
+  {PRINCIPLES.map((p) => (
+    <>
+      <h3>{p.title}</h3>
+      <p>{p.body}</p>
+    </>
+  ))}
 
-      <div class="grid md:grid-cols-3 gap-6 mb-16">
-        {[
-          {
-            title: 'Publish Open Research',
-            body: 'Weekly technical posts and threat reports, annual white papers and original research recognized by the security community.',
-          },
-          {
-            title: 'Build in the Open',
-            body: 'Open-source security and forensic tools, curated datasets, IOC feeds and research repositories anyone can use and audit.',
-          },
-          {
-            title: 'Grow the Community',
-            body: 'Mentor students and aspiring researchers, collaborate with academia and industry, and share what we learn freely.',
-          },
-        ].map((item) => (
-          <article class="card p-6">
-            <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">{item.title}</h2>
-            <p class="text-sm text-[var(--text-secondary)] leading-relaxed">{item.body}</p>
-          </article>
-        ))}
-      </div>
+  <h2>What we don’t do</h2>
+  <ul>
+    <li>We don’t test anything without permission, including “just a quick scan”.</li>
+    <li>We don’t sell or trade vulnerabilities or exploits.</li>
+    <li>We don’t publish personal data, even when it turns up in a leak we’re analysing.</li>
+    <li>We don’t name individuals as attackers without strong, published evidence.</li>
+  </ul>
 
-      <div class="mb-16">
-        <header class="text-center mb-10">
-          <h2 class="section-heading">Our Principles</h2>
-          <p class="section-subheading">Eight rules that gate every finding before publication.</p>
-        </header>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {principles.map((p) => (
-            <article class="card p-5">
-              <p class="font-mono text-xs text-[var(--accent-primary)] mb-2">{p.id}</p>
-              <h3 class="font-semibold text-sm text-[var(--text-primary)] mb-2">{p.title}</h3>
-              <p class="text-xs text-[var(--text-tertiary)] leading-relaxed">{p.description}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div class="max-w-3xl mx-auto">
-        <header class="text-center mb-10">
-          <h2 class="section-heading">The Team</h2>
-          <p class="section-subheading">
-            A collaborative group of researchers, analysts and engineers. Individual profiles are published
-            alongside the first attributed research releases.
-          </p>
-        </header>
-        <div class="card p-8 text-center">
-          <span class="font-mono text-[var(--accent-primary)]">$ whoami</span>
-          <p class="mt-4 text-sm text-[var(--text-secondary)]">
-            Team Crackbot — operating across vulnerability research, malware analysis, DFIR and applied AI.
-            We keep a low profile until the work speaks.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-</Layout>
+  <h2>Working with us</h2>
+  <p>
+    We’re open to collaborating with other researchers, students who want to learn by doing real work, and
+    organisations that want a second pair of eyes on something. Our tools and lab notes go up on
+    <a href={SITE.github} rel="noopener noreferrer">GitHub</a> once they’re safe to share.
+    If you’d like to get involved, <a href="/contact/">get in touch</a>, and tell us what you’ve been working on.
+  </p>
+</Page>

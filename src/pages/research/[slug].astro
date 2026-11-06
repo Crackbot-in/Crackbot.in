@@ -1,0 +1,56 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Plate from '../../components/Plate.astro';
+import { SITE, TOPICS } from '../../data/site';
+import { getResearch, formatDate, readingTime, type Research } from '../../data/research';
+
+export async function getStaticPaths() {
+  const posts = await getResearch();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props as { post: Research };
+const { Content } = await render(post);
+const d = post.data;
+const topic = TOPICS[d.topic];
+const subject = encodeURIComponent(`Correction: ${d.title}`);
+---
+<Base title={d.title} description={d.summary} type="article" published={d.date}>
+  <article>
+    <header class="article-head">
+      <div class="wrap">
+        <div class="meta">
+          <a class={`topic topic-${d.topic}`} href={`/research/topic/${d.topic}/`}>{topic.short}</a>
+          <span>{d.kind}</span>
+          <span class="tlp" title="Traffic Light Protocol: free to share">TLP:{d.tlp}</span>
+        </div>
+        <h1>{d.title}</h1>
+        <p class="dek">{d.summary}</p>
+        <div class="byline">
+          <span>By <b>{d.authors.join(', ')}</b></span>
+          <span>Published <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time></span>
+          {d.updated && <span>Updated <time datetime={d.updated.toISOString()}>{formatDate(d.updated)}</time></span>}
+          <span>{readingTime(post.body)}</span>
+        </div>
+      </div>
+    </header>
+    <div class="plate-wide">
+      <Plate seed={post.id} topic={d.topic} label={topic.label} />
+    </div>
+    <div class="wrap article-body">
+      {d.findings && (
+        <aside class="findings" aria-label="Key points">
+          <h2>Key points</h2>
+          <ul>{d.findings.map((f) => <li>{f}</li>)}</ul>
+        </aside>
+      )}
+      <div class="prose">
+        <Content />
+      </div>
+      <footer class="article-foot">
+        <a href="/research/">← All research</a>
+        <span>Spotted a mistake? <a href={`mailto:${SITE.email}?subject=${subject}`}>Tell us</a> and we’ll correct it publicly.</span>
+      </footer>
+    </div>
+  </article>
+</Base>

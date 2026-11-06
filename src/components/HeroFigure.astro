@@ -1,0 +1,54 @@
+---
+// Fig. 1 — an illustrative intrusion path, drawn like a figure in a report.
+// Pure SVG; colours come from CSS variables so it follows light/dark mode.
+const dots: Array<[number, number]> = [];
+for (let x = 20; x <= 540; x += 26) for (let y = 20; y <= 400; y += 26) dots.push([x, y]);
+
+const boxes = [
+  { x: 24, y: 48, k: 'initial access', v: 'invoice.lnk' },
+  { x: 214, y: 48, k: 'execution', v: 'loader.dll' },
+  { x: 404, y: 48, k: 'command & control', v: 'https/443', hot: true },
+  { x: 404, y: 196, k: 'discovery', v: 'ad enumeration' },
+  { x: 214, y: 196, k: 'lateral movement', v: 'smb · wmi' },
+  { x: 24, y: 196, k: 'collection', v: 'staged archive' },
+  { x: 214, y: 330, k: 'exfiltration', v: 'over c2 channel', hot: true },
+];
+const W = 132, H = 52;
+const c = (i: number) => ({ cx: boxes[i].x + W / 2, cy: boxes[i].y + H / 2 });
+---
+<figure class="figure">
+  <svg viewBox="0 0 560 470" role="img" aria-labelledby="fig1-title">
+    <title id="fig1-title">Diagram of an intrusion moving from initial access to exfiltration, with the command-and-control link highlighted.</title>
+    {dots.map(([x, y]) => <circle cx={x} cy={y} r="1" class="fg-dot" />)}
+
+    <!-- main path -->
+    <path class="fg-line" d={`M${boxes[0].x + W} ${c(0).cy} H${boxes[1].x}`} />
+    <path class="fg-line" d={`M${boxes[1].x + W} ${c(1).cy} H${boxes[2].x}`} />
+    <path class="fg-line" d={`M${c(2).cx} ${boxes[2].y + H} V${boxes[3].y}`} />
+    <path class="fg-line" d={`M${boxes[3].x} ${c(3).cy} H${boxes[4].x + W}`} />
+    <path class="fg-line" d={`M${boxes[4].x} ${c(4).cy} H${boxes[5].x + W}`} />
+    <path class="fg-line" d={`M${c(5).cx} ${boxes[5].y + H} V${c(6).cy} H${boxes[6].x}`} />
+    <!-- c2 channel back out -->
+    <path class="fg-path" d={`M${boxes[6].x + W} ${c(6).cy} H${c(2).cx + 40} V${boxes[2].y + H}`} />
+
+    {boxes.map((b) => (
+      <g>
+        <rect x={b.x} y={b.y} width={W} height={H} class={b.hot ? 'fg-box-hot' : 'fg-box'} />
+        <text x={b.x + 10} y={b.y + 20} class="fg-dim">{b.k.toUpperCase()}</text>
+        <text x={b.x + 10} y={b.y + 39} class={b.hot ? 'fg-text-hot' : 'fg-text'}>{b.v}</text>
+      </g>
+    ))}
+
+    <!-- timeline -->
+    <path class="fg-faint" d="M24 436 H536" />
+    {[0, 1, 2, 3, 4].map((i) => (
+      <g>
+        <path class="fg-line" d={`M${24 + i * 128} 430 V442`} />
+        <text x={24 + i * 128} y="460" class="fg-dim" text-anchor={i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}>
+          {['T+0', 'T+14m', 'T+2h', 'T+19h', 'T+3d'][i]}
+        </text>
+      </g>
+    ))}
+  </svg>
+  <figcaption><b>Fig. 1</b> An intrusion reconstructed as a sequence of steps. This is the kind of picture we try to give defenders: what happened, in what order, and where it could have been stopped.</figcaption>
+</figure>

@@ -1,0 +1,24 @@
+---
+import { TOPICS } from '../data/site';
+import { formatDate, type Research } from '../data/research';
+interface Props { items: Research[]; }
+const { items } = Astro.props;
+---
+{items.length === 0 ? (
+  <p class="empty">Nothing published here yet. We’d rather wait than post something half-done. Follow the <a href="/rss.xml">RSS feed</a> to hear when it lands.</p>
+) : (
+  <ul class="list">
+    {items.map((p) => (
+      <li>
+        <a href={`/research/${p.id}/`}>
+          <span class="date">{formatDate(p.data.date)}</span>
+          <span>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.summary}</p>
+          </span>
+          <span class="meta kind"><span class={`topic topic-${p.data.topic}`}>{TOPICS[p.data.topic].short}</span></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}

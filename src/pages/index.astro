@@ -1,97 +1,117 @@
 ---
-// index.astro - Home page
-import Layout from '../layouts/Layout.astro';
-import FocusAreas from '../components/sections/FocusAreas.astro';
-import Philosophy from '../components/sections/Philosophy.astro';
-import CTA from '../components/sections/CTA.astro';
-import principlesData from '../data/principles.json';
-import siteData from '../data/site.json';
-import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import HeroFigure from '../components/HeroFigure.astro';
+import Plate from '../components/Plate.astro';
+import ResearchList from '../components/ResearchList.astro';
+import { TOPICS, PRINCIPLES, IN_PROGRESS, type TopicKey } from '../data/site';
+import { getResearch, formatDate, readingTime } from '../data/research';
 
-const site = siteData;
-const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = await getResearch();
+const [lead, ...rest] = posts;
+const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forensics'];
 ---
-
-<Layout title="Crackbot | Independent Cybersecurity Research Group">
-  <section class="relative overflow-hidden pt-20 lg:pt-28 pb-16 lg:pb-24" aria-labelledby="hero-heading">
-    <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary-lighter)] via-transparent to-transparent opacity-50 pointer-events-none" aria-hidden="true"></div>
-    <div class="relative container">
-      <header class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full text-sm font-medium bg-[var(--accent-primary-lighter)] text-[var(--accent-primary)]">
-          <span class="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" aria-hidden="true"></span>
-          <span>Platform Active — Research in Progress</span>
-        </div>
-        <h1 id="hero-heading" class="display-1 mb-6">Crackbot</h1>
-        <p class="text-xl sm:text-2xl max-w-3xl mx-auto text-[var(--text-secondary)] mb-8">
-          Independent Cybersecurity Research Group
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="label">Independent security research</p>
+        <h1>We take threats apart so defenders don’t have to <em>guess.</em></h1>
+        <p class="lede">
+          Crackbot is a small group of security researchers. We study vulnerabilities, malware and the
+          infrastructure attackers rely on, then write up what we find in plain language, with the evidence attached.
         </p>
-        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-[var(--text-tertiary)] mb-10">
-          We conduct cybersecurity research, publish technical analysis, develop security tools, and share actionable threat intelligence to help researchers, defenders, and the broader security community.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary btn-lg"
-          >
-            View on GitHub
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          <a href="/contact" class="btn btn-secondary btn-lg">
-            Get in Touch
-          </a>
+        <div class="actions">
+          <a class="btn btn-primary" href="/research/">Read the research</a>
+          <a class="btn btn-ghost" href="/disclosure/">Report a vulnerability</a>
         </div>
-      </header>
+      </div>
+      <HeroFigure />
     </div>
   </section>
 
-  <FocusAreas />
-
-  <Philosophy principles={principlesData.principles} codeBlock={principlesData.codeBlock} />
-
-  {latestPosts.length > 0 && (
-    <section class="section border-t border-[var(--border-primary)]" aria-labelledby="latest-heading">
-      <div class="container">
-        <header class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-          <div>
-            <h2 id="latest-heading" class="section-heading">Latest Research</h2>
+  <section class="wrap section" aria-labelledby="latest">
+    <div class="section-head">
+      <h2 id="latest">Latest</h2>
+      <a href="/research/">All research →</a>
+    </div>
+    {lead && (
+      <a class="feature" href={`/research/${lead.id}/`}>
+        <Plate seed={lead.id} topic={lead.data.topic} label={TOPICS[lead.data.topic].short} />
+        <div>
+          <div class="meta">
+            <span class={`topic topic-${lead.data.topic}`}>{TOPICS[lead.data.topic].short}</span>
+            <span>{lead.data.kind}</span>
+            <span>{formatDate(lead.data.date)}</span>
+            <span>{readingTime(lead.body)}</span>
           </div>
-          <a href="/blog" class="btn btn-ghost">
-            All Posts
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-        </header>
-
-        <div class="grid gap-6 md:grid-cols-3">
-          {latestPosts.map((post) => (
-            <article class="card group p-6">
-              <div class="flex items-center justify-between gap-3 mb-4">
-                <div class="flex flex-wrap gap-1.5">
-                  {post.data.tags.slice(0, 2).map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-                <time class="text-xs font-mono text-[var(--text-quaternary)]" datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
-                </time>
-              </div>
-              <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
-                <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-              </h3>
-              <p class="text-sm text-[var(--text-secondary)] leading-relaxed">{post.data.description}</p>
-            </article>
-          ))}
+          <h3>{lead.data.title}</h3>
+          <p>{lead.data.summary}</p>
         </div>
-      </div>
-    </section>
-  )}
+      </a>
+    )}
+    {rest.length > 0 && <div class="section"><ResearchList items={rest.slice(0, 5)} /></div>}
+  </section>
 
-  <CTA />
-</Layout>
+  <section class="wrap section" aria-labelledby="areas">
+    <div class="section-head">
+      <h2 id="areas">What we work on</h2>
+    </div>
+    <div class="areas">
+      {areas.map((key, i) => (
+        <div class="area">
+          <span class="num">0{i + 1}</span>
+          <span class={`swatch sw-${key}`}></span>
+          <h3><a href={`/research/topic/${key}/`}>{TOPICS[key].label}</a></h3>
+          <p>{TOPICS[key].blurb}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="how">
+    <div class="section-head">
+      <h2 id="how">How we work</h2>
+      <a href="/about/">About the group →</a>
+    </div>
+    <div class="principles">
+      {PRINCIPLES.map((p) => (
+        <div class="principle">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="building">
+    <div class="section-head">
+      <h2 id="building">On the bench</h2>
+    </div>
+    <p class="statement">We’re a new group, and we’d rather say so than pretend otherwise. <span>This is what we’re building before the first long reports go out.</span></p>
+    <div class="building section">
+      {IN_PROGRESS.map((b) => (
+        <div>
+          <h3>{b.name}</h3>
+          <p>{b.note}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="band" aria-label="Disclosure">
+    <div class="wrap">
+      <div class="band-cell">
+        <p class="label">For vendors</p>
+        <h2>Heard from us about a bug?</h2>
+        <p>Our reports come with a timeline, reproduction steps and a named contact. Here’s what to expect, and how we handle extensions.</p>
+        <a class="more" href="/disclosure/">Read the disclosure policy →</a>
+      </div>
+      <div class="band-cell">
+        <p class="label">For researchers</p>
+        <h2>Found something in ours?</h2>
+        <p>If you’ve found a problem with this site or anything we publish, tell us. We’ll acknowledge it, fix it, and credit you if you’d like.</p>
+        <a class="more" href="/.well-known/security.txt">security.txt →</a>
+      </div>
+    </div>
+  </section>
+</Base>
