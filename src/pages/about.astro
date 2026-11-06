@@ -5,41 +5,17 @@ import { PRINCIPLES, SITE } from '../data/site';
 <Page
   title="About"
   label="About"
-  heading="A small group with a simple job"
-  intro="Find out how attacks actually work, explain it clearly, and help the people defending against them."
+  heading="About Crackbot"
+  intro="A small security research group and think tank."
 >
-  <p>
-    Crackbot started as a handful of people doing security research in their spare time: reversing samples,
-    chasing odd bugs, rebuilding incidents from logs. The work was good, but it lived in private notes where it
-    helped nobody. We formed the group to change that, and to hold each other to a higher standard than any of us
-    would manage alone.
-  </p>
-  <p>
-    We’re independent. We don’t sell products, and no vendor decides what we publish or when. That independence only
-    means something if it comes with discipline, so we have a few rules we don’t bend.
-  </p>
+  <p>We all work in cyber security. Crackbot is how we give something back to the community we learned from: we research, write up what we find, and share tools when they are ready.</p>
+  <p>We are independent. We don't sell products, and nobody outside the group decides what we publish.</p>
 
-  <h2>What we hold ourselves to</h2>
-  {PRINCIPLES.map((p) => (
-    <>
-      <h3>{p.title}</h3>
-      <p>{p.body}</p>
-    </>
-  ))}
-
-  <h2>What we don’t do</h2>
+  <h2>How we work</h2>
   <ul>
-    <li>We don’t test anything without permission, including “just a quick scan”.</li>
-    <li>We don’t sell or trade vulnerabilities or exploits.</li>
-    <li>We don’t publish personal data, even when it turns up in a leak we’re analysing.</li>
-    <li>We don’t name individuals as attackers without strong, published evidence.</li>
+    {PRINCIPLES.map((p) => <li><strong>{p.title}.</strong> {p.body}</li>)}
   </ul>
 
-  <h2>Working with us</h2>
-  <p>
-    We’re open to collaborating with other researchers, students who want to learn by doing real work, and
-    organisations that want a second pair of eyes on something. Our tools and lab notes go up on
-    <a href={SITE.github} rel="noopener noreferrer">GitHub</a> once they’re safe to share.
-    If you’d like to get involved, <a href="/contact/">get in touch</a>, and tell us what you’ve been working on.
-  </p>
+  <h2>Get involved</h2>
+  <p>We are happy to hear from other researchers and students who want to work on real problems. Our code is on <a href={SITE.github} rel="noopener noreferrer">GitHub</a>. If you would like to join in, <a href="/contact/">get in touch</a>.</p>
 </Page>

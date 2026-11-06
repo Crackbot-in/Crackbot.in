@@ -1,6 +1,6 @@
 ---
-// Deterministic cover art for a research piece, generated at build time from its slug.
-// Every report gets its own plate; no stock images, no external requests.
+// Cover art for a research post, generated at build time from its slug.
+// Animated with CSS only: the highlighted route draws itself and the target pulses.
 interface Props { seed: string; topic: string; label?: string; }
 const { seed, topic, label } = Astro.props;
 
@@ -12,14 +12,13 @@ const Wd = 800, Ht = 500;
 const nodes = Array.from({ length: 26 }, () => ({ x: 40 + rand() * (Wd - 80), y: 40 + rand() * (Ht - 100) }));
 const edges: Array<[number, number]> = [];
 nodes.forEach((n, i) => {
-  const near = nodes
+  nodes
     .map((m, j) => ({ j, d: (m.x - n.x) ** 2 + (m.y - n.y) ** 2 }))
     .filter((o) => o.j !== i)
     .sort((a, b) => a.d - b.d)
-    .slice(0, 2);
-  near.forEach((o) => { if (i < o.j) edges.push([i, o.j]); });
+    .slice(0, 2)
+    .forEach((o) => { if (i < o.j) edges.push([i, o.j]); });
 });
-// highlighted route: walk from a left-most node towards the right
 const sorted = nodes.map((n, i) => ({ ...n, i })).sort((a, b) => a.x - b.x);
 const route: number[] = [sorted[0].i];
 for (let k = 0; k < 5; k++) {
@@ -39,8 +38,8 @@ const id = (h >>> 0).toString(16).slice(0, 6).toUpperCase();
   {Array.from({ length: 9 }, (_, i) => <path class="p-grid" d={`M${(i + 1) * 80} 0 V${Ht}`} />)}
   {Array.from({ length: 5 }, (_, i) => <path class="p-grid" d={`M0 ${(i + 1) * 80} H${Wd}`} />)}
   {edges.map(([a, b]) => <path class="p-line" d={`M${nodes[a].x.toFixed(1)} ${nodes[a].y.toFixed(1)} L${nodes[b].x.toFixed(1)} ${nodes[b].y.toFixed(1)}`} />)}
-  <path class="p-hot" d={routeD} />
-  {[18, 34, 52].map((r) => <circle class="p-ring" cx={hot.x} cy={hot.y} r={r} />)}
+  <path class="p-hot p-draw" d={routeD} pathLength="1" />
+  {[0, 1, 2].map((k) => <circle class={`p-ring p-pulse p-pulse-${k}`} cx={hot.x.toFixed(1)} cy={hot.y.toFixed(1)} r="40" />)}
   {nodes.map((n, i) => <circle class={route.includes(i) ? 'p-dot-hot' : 'p-dot'} cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r={route.includes(i) ? 4 : 2.5} />)}
   <text class="p-text" x="24" y={Ht - 22}>{(label ?? topic).toUpperCase()}</text>
   <text class="p-text" x={Wd - 24} y={Ht - 22} text-anchor="end">CB-{id}</text>

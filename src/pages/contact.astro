@@ -7,27 +7,27 @@ import { SITE } from '../data/site';
     <div class="wrap">
       <p class="label">Contact</p>
       <h1>Get in touch</h1>
-      <p>We’re a small team and read everything ourselves. Plain-text email works best. There’s no contact form, so nothing you send passes through a third party on the way to us.</p>
+      <p>Email is the best way to reach us.</p>
     </div>
   </header>
   <div class="wrap">
     <div class="contact-grid">
       <div>
-        <p class="label">General</p>
-        <h2>Questions and collaboration</h2>
-        <p>Research questions, press, invitations to speak, or if you’d like to work with us.</p>
+        <p class="label">Support</p>
+        <h2>General</h2>
+        <p>Questions, collaboration, or anything else.</p>
         <a class="addr" href={`mailto:${SITE.email}`}>{SITE.email}</a>
       </div>
       <div>
-        <p class="label">Security</p>
-        <h2>Report a vulnerability</h2>
-        <p>Something wrong with this site or our tools? Read the <a href="/disclosure/">disclosure policy</a> first.</p>
-        <a class="addr" href={`mailto:${SITE.securityEmail}?subject=Security%20report`}>{SITE.securityEmail}</a>
+        <p class="label">Research</p>
+        <h2>Security reports</h2>
+        <p>Vulnerability reports and research enquiries. See the <a href="/disclosure/">disclosure policy</a>.</p>
+        <a class="addr" href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a>
       </div>
       <div>
         <p class="label">Code</p>
-        <h2>Tools and lab notes</h2>
-        <p>Open-source tooling, detection rules and issue tracking.</p>
+        <h2>GitHub</h2>
+        <p>Our public repositories and tools.</p>
         <a class="addr" href={SITE.github} rel="noopener noreferrer">github.com/{SITE.githubHandle}</a>
       </div>
     </div>

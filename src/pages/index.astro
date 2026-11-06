@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import HeroFigure from '../components/HeroFigure.astro';
 import Plate from '../components/Plate.astro';
 import ResearchList from '../components/ResearchList.astro';
-import { TOPICS, PRINCIPLES, IN_PROGRESS, type TopicKey } from '../data/site';
+import { SITE, TOPICS, PRINCIPLES, type TopicKey } from '../data/site';
 import { getResearch, formatDate, readingTime } from '../data/research';
 
 const posts = await getResearch();
@@ -14,15 +14,12 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
   <section class="hero">
     <div class="wrap">
       <div>
-        <p class="label">Independent security research</p>
-        <h1>We take threats apart so defenders don’t have to <em>guess.</em></h1>
-        <p class="lede">
-          Crackbot is a small group of security researchers. We study vulnerabilities, malware and the
-          infrastructure attackers rely on, then write up what we find in plain language, with the evidence attached.
-        </p>
+        <p class="label">Security research group &amp; think tank</p>
+        <h1>Security research, shared with the <em>community.</em></h1>
+        <p class="lede">We are a small group of people who work in cyber security. We research vulnerabilities, malware and threat activity, and publish what we learn so others can use it.</p>
         <div class="actions">
           <a class="btn btn-primary" href="/research/">Read the research</a>
-          <a class="btn btn-ghost" href="/disclosure/">Report a vulnerability</a>
+          <a class="btn btn-ghost" href="/disclosure/">Disclosure policy</a>
         </div>
       </div>
       <HeroFigure />
@@ -32,7 +29,7 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
   <section class="wrap section" aria-labelledby="latest">
     <div class="section-head">
       <h2 id="latest">Latest</h2>
-      <a href="/research/">All research →</a>
+      <a href="/research/">All research</a>
     </div>
     {lead && (
       <a class="feature" href={`/research/${lead.id}/`}>
@@ -40,7 +37,6 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
         <div>
           <div class="meta">
             <span class={`topic topic-${lead.data.topic}`}>{TOPICS[lead.data.topic].short}</span>
-            <span>{lead.data.kind}</span>
             <span>{formatDate(lead.data.date)}</span>
             <span>{readingTime(lead.body)}</span>
           </div>
@@ -54,7 +50,7 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
 
   <section class="wrap section" aria-labelledby="areas">
     <div class="section-head">
-      <h2 id="areas">What we work on</h2>
+      <h2 id="areas">What we look at</h2>
     </div>
     <div class="areas">
       {areas.map((key, i) => (
@@ -71,7 +67,7 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
   <section class="wrap section" aria-labelledby="how">
     <div class="section-head">
       <h2 id="how">How we work</h2>
-      <a href="/about/">About the group →</a>
+      <a href="/about/">About us</a>
     </div>
     <div class="principles">
       {PRINCIPLES.map((p) => (
@@ -83,34 +79,19 @@ const areas: TopicKey[] = ['vulnerabilities', 'malware', 'intelligence', 'forens
     </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="building">
-    <div class="section-head">
-      <h2 id="building">On the bench</h2>
-    </div>
-    <p class="statement">We’re a new group, and we’d rather say so than pretend otherwise. <span>This is what we’re building before the first long reports go out.</span></p>
-    <div class="building section">
-      {IN_PROGRESS.map((b) => (
-        <div>
-          <h3>{b.name}</h3>
-          <p>{b.note}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
   <section class="band" aria-label="Disclosure">
     <div class="wrap">
       <div class="band-cell">
-        <p class="label">For vendors</p>
-        <h2>Heard from us about a bug?</h2>
-        <p>Our reports come with a timeline, reproduction steps and a named contact. Here’s what to expect, and how we handle extensions.</p>
-        <a class="more" href="/disclosure/">Read the disclosure policy →</a>
+        <p class="label">Vendors</p>
+        <h2>Found something in your product?</h2>
+        <p>If we find a vulnerability, including a zero-day, we report it to you privately first and give you time to fix it.</p>
+        <a class="more" href="/disclosure/">Disclosure policy</a>
       </div>
       <div class="band-cell">
-        <p class="label">For researchers</p>
+        <p class="label">Researchers</p>
         <h2>Found something in ours?</h2>
-        <p>If you’ve found a problem with this site or anything we publish, tell us. We’ll acknowledge it, fix it, and credit you if you’d like.</p>
-        <a class="more" href="/.well-known/security.txt">security.txt →</a>
+        <p>Email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a>. We will look into it and credit you if you would like.</p>
+        <a class="more" href="/.well-known/security.txt">security.txt</a>
       </div>
     </div>
   </section>

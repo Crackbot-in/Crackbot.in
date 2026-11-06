@@ -4,61 +4,16 @@ import { SITE } from '../data/site';
 ---
 <Page
   title="Disclosure policy"
-  label="Policy · Last updated 7 November 2026"
-  heading="Coordinated disclosure"
-  intro="How we report vulnerabilities to vendors, and how to report vulnerabilities to us."
+  label="Policy"
+  heading="Disclosure policy"
+  intro="How we report vulnerabilities, and how to report one to us."
 >
   <h2>When we find a vulnerability</h2>
-  <p>
-    If we find a security problem in someone else’s software or service, the vendor hears about it privately,
-    before anyone else does. Our default timeline is <strong>90 days</strong> from our first report to public
-    disclosure.
-  </p>
-  <table>
-    <thead>
-      <tr><th>Stage</th><th>What happens</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Day 0</td><td>We send the vendor a report with affected versions, impact, reproduction steps and a named contact.</td></tr>
-      <tr><td>Within 14 days</td><td>We expect an acknowledgement. If we can’t reach anyone, we try other channels, including national CERTs.</td></tr>
-      <tr><td>Day 90</td><td>We publish our write-up, or earlier if a fix has shipped and the vendor agrees.</td></tr>
-      <tr><td>Extensions</td><td>If a fix is close and the vendor is engaging in good faith, we’ll usually agree to one extension of up to 30 days.</td></tr>
-    </tbody>
-  </table>
-  <p>
-    If we see a vulnerability being <strong>actively exploited</strong>, we may shorten the timeline to
-    7 days so defenders can protect themselves. We’ll tell the vendor if we do.
-  </p>
-  <p>
-    Every public write-up includes mitigation or detection guidance. We don’t publish working exploit code for
-    unpatched issues.
-  </p>
+  <p>If we find a vulnerability, including a zero-day, we report it privately to the vendor. If we can't reach them, we go through CERT-In or the relevant national CERT.</p>
+  <p>We agree a timeline with the vendor before anything is published, normally up to 90 days. If a vulnerability is already being exploited, we may publish sooner so people can protect themselves.</p>
 
   <h2>Reporting a vulnerability to us</h2>
-  <p>
-    If you’ve found a security problem with <code>crackbot.in</code>, our repositories, or something we’ve
-    published, please email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a>. Include enough detail
-    for us to reproduce it. Our machine-readable contact details are in
-    <a href="/.well-known/security.txt">security.txt</a>.
-  </p>
-  <p>We will:</p>
-  <ul>
-    <li>acknowledge your report within 5 working days;</li>
-    <li>keep you updated while we fix it;</li>
-    <li>credit you publicly when it’s resolved, if you’d like us to.</li>
-  </ul>
-
-  <h3>Safe harbour</h3>
-  <p>
-    If you act in good faith, stay within this scope, avoid privacy violations and service disruption, and give us
-    reasonable time to fix the issue before sharing it, we won’t pursue or support legal action against you.
-  </p>
-
-  <h3>Out of scope</h3>
-  <ul>
-    <li>Denial-of-service or load testing.</li>
-    <li>Social engineering of our members.</li>
-    <li>Third-party services we link to but don’t operate (GitHub, our hosting provider, and so on). Report those to their owners.</li>
-    <li>Missing best-practice headers with no demonstrated impact.</li>
-  </ul>
+  <p>Found a security problem with <code>crackbot.in</code> or anything we publish? Email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a> with enough detail for us to reproduce it. Our contact details are also in <a href="/.well-known/security.txt">security.txt</a>.</p>
+  <p>We will acknowledge your report, keep you updated, and credit you if you would like. If you act in good faith and give us time to fix the issue, we won't take legal action against you.</p>
+  <p>Please don't run denial-of-service tests or target our members with social engineering.</p>
 </Page>

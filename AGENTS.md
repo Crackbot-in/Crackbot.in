@@ -4,7 +4,8 @@ Static Astro site for crackbot.in. Deployed by Vercel on every push to `main`; o
 
 ## Hard rules (security)
 - **Static only.** `output: 'static'`. No SSR, API routes, middleware, forms, auth, databases or cookies on this site. Anything dynamic (CRM, dashboards) is a separate app on its own subdomain.
-- **No client JavaScript.** The CSP in `vercel.json` sets `script-src 'none'`. Don't add `<script>`, islands, analytics or third-party embeds.
+- **Almost no client JavaScript.** The only script is `public/theme.js` (theme toggle). CSP is `script-src 'self'`: no inline scripts, islands, analytics or third-party embeds.
+- **Animations are SVG/CSS only** and must stay hidden or still under `prefers-reduced-motion`.
 - **No inline styles.** CSP is `style-src 'self'`. Put CSS in `src/styles/global.css`; don't use `style=""` or `define:vars`.
 - **No external requests.** No CDN fonts, images or scripts. Fonts are system stacks; images are local SVG.
 - **Dependencies:** only `astro`. Add a package only with a strong reason. Versions are pinned exactly (`.npmrc` save-exact, ignore-scripts). Prefer releases at least 2 weeks old. Run `npm audit` before merging.
@@ -16,4 +17,4 @@ Static Astro site for crackbot.in. Deployed by Vercel on every push to `main`; o
 - `public/.well-known/security.txt` — renew `Expires` before 2027-11-07.
 
 ## Writing style
-Plain, specific, first-person plural. No hype ("cutting-edge", "next-gen", "immutable"), no claims we can't back with published work.
+Plain, modest, first-person plural. No em dashes. No hype or grand claims. Keep policies short. Public emails are support@ and researcher@ only; never put admin@ or development@ on the site.

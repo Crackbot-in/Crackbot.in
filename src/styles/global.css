@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Crackbot — design tokens
-   Light and dark follow the visitor's OS setting. No JavaScript involved.
+   Crackbot design tokens
+   Light/dark follows the device by default; /theme.js lets visitors override it.
    ========================================================================== */
 
 :root {
@@ -34,8 +34,33 @@
   --radius: 2px;
 }
 
+/* Dark tokens apply when the visitor picked dark, or when they're on "auto"
+   (no data-theme) and their device is in dark mode. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1012;
+  --bg-raised: #16171a;
+  --bg-sunk: #1b1c20;
+  --ink: #ecebe6;
+  --ink-2: #b9b8b2;
+  --ink-3: #8c8c86;
+  --rule: #2b2c31;
+  --rule-strong: #ecebe6;
+  --accent: #ff6b4a;
+  --accent-soft: #3a1c15;
+  --focus: #7aa7ff;
+  --t-vulnerabilities: #ff6b4a;
+  --t-malware: #f0a53a;
+  --t-intelligence: #7aa7ff;
+  --t-forensics: #5fc48a;
+  --t-notes: #a3a6ad;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #0f1012;
     --bg-raised: #16171a;
     --bg-sunk: #1b1c20;
@@ -1070,4 +1095,164 @@ main:has(> .band:last-child) + .site-footer {
 }
 .prose > :first-child {
   margin-top: 0;
+}
+
+/* ==========================================================================
+   Logo mark
+   ========================================================================== */
+.mark-shield {
+  fill: var(--accent);
+}
+.mark-crack {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* ==========================================================================
+   Header layout + theme toggle
+   ========================================================================== */
+.site-header .wrap {
+  flex-wrap: wrap;
+}
+.site-header .nav {
+  margin-left: auto;
+}
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin-left: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.theme-toggle[hidden] {
+  display: none;
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  display: none;
+}
+.theme-toggle .ti-fill {
+  fill: currentColor;
+  stroke: none;
+}
+.theme-toggle[data-mode='auto'] .ti-auto,
+.theme-toggle[data-mode='light'] .ti-light,
+.theme-toggle[data-mode='dark'] .ti-dark {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .site-header .wrap {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 6px;
+    gap: 6px 12px;
+  }
+  .site-header .brand {
+    order: 1;
+  }
+  .theme-toggle {
+    order: 2;
+    margin-left: auto;
+  }
+  .site-header .nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    gap: 20px;
+  }
+}
+
+/* ==========================================================================
+   Principles: three across
+   ========================================================================== */
+.principles {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 900px) {
+  .principles {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* ==========================================================================
+   Motion (CSS + SVG only). Disabled for prefers-reduced-motion.
+   ========================================================================== */
+.fg-flash {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.fg-halo {
+  fill: var(--accent);
+  opacity: 0.18;
+}
+.fg-cursor {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.fg-flow {
+  animation: dash-flow 1.2s linear infinite;
+}
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+.p-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 6s ease-in-out infinite;
+}
+@keyframes draw {
+  0% { stroke-dashoffset: 1; }
+  45%, 85% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+.p-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 3s ease-out infinite;
+  opacity: 0;
+}
+.p-pulse-1 { animation-delay: 1s; }
+.p-pulse-2 { animation-delay: 2s; }
+@keyframes pulse {
+  0% { transform: scale(0.15); opacity: 0.7; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim {
+    display: none;
+  }
+  .p-draw {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+  .p-pulse {
+    opacity: 0.4;
+    transform: none;
+  }
 }

@@ -2,7 +2,7 @@
 
 Website of Crackbot, an independent security research group.
 
-Static [Astro](https://astro.build) site with zero client-side JavaScript, deployed on Vercel.
+Static [Astro](https://astro.build) site, deployed on Vercel. The only script is a small self-hosted theme toggle.
 
 ```bash
 npm ci          # install exactly what's in the lockfile (install scripts disabled)

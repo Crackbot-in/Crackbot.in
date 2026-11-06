@@ -6,6 +6,8 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://crackbot.in',
   output: 'static',
+  // Keep whitespace as written so text next to links never loses its space.
+  compressHTML: false,
   trailingSlash: 'ignore',
   build: {
     format: 'directory',
