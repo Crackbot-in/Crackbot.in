@@ -18,3 +18,11 @@ Static Astro site for crackbot.in. Deployed by Vercel on every push to `main`; o
 
 ## Writing style
 Plain, modest, first-person plural. No em dashes. No hype or grand claims. Keep policies short. Public emails are support@ and researcher@ only; never put admin@ or development@ on the site.
+
+## Artwork
+- `HeroFigure.astro`: hex dump + detection rule, animated (8s loop).
+- `Plate.astro`: per-topic cover art seeded by slug. Animation timing uses `.d0`-`.d15` (0.5s steps) in global.css.
+- Animations are SVG (SMIL) + CSS only. Not GIFs, no JS.
+
+## Analytics
+GoatCounter via a cookie-free pixel, set `goatcounter` in `src/data/site.ts` and add the GoatCounter host to `img-src` in the CSP. No other trackers.

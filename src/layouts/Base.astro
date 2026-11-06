@@ -44,5 +44,14 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
       <slot />
     </main>
     <Footer />
+    {SITE.goatcounter && (
+      <img
+        class="gc"
+        src={`https://${SITE.goatcounter}.goatcounter.com/count?p=${encodeURIComponent(Astro.url.pathname)}&t=${encodeURIComponent(fullTitle)}`}
+        alt=""
+        width="1"
+        height="1"
+      />
+    )}
   </body>
 </html>

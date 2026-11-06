@@ -9,7 +9,8 @@ import { SITE } from '../data/site';
   intro="How we report vulnerabilities, and how to report one to us."
 >
   <h2>When we find a vulnerability</h2>
-  <p>If we find a vulnerability, including a zero-day, we report it privately to the vendor first. If we can't reach them, we go through CERT.</p>
+  <p>If we find a vulnerability, including a zero-day, we report it privately to the vendor first.<br />
+  If we can't reach them, we go through CERT.</p>
   <table>
     <thead>
       <tr><th>Stage</th><th>What happens</th></tr>
@@ -22,10 +23,12 @@ import { SITE } from '../data/site';
       <tr><td>Exploited in the wild</td><td>If we see the vulnerability being actively exploited, we may publish after 7 days so people can protect themselves.</td></tr>
     </tbody>
   </table>
-  <p>Our write-ups include mitigation or detection advice. We don't publish working exploit code for unpatched issues.</p>
+  <p>Our write-ups include mitigation or detection advice.</p>
 
   <h2>Reporting a vulnerability to us</h2>
-  <p>Found a security problem with <code>crackbot.in</code> or anything we publish? Email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a> with enough detail for us to reproduce it. Our contact details are also in <a href="/.well-known/security.txt">security.txt</a>.</p>
-  <p>We will acknowledge your report, keep you updated, and credit you if you would like. If you act in good faith and give us time to fix the issue, we won't take legal action against you.</p>
+  <p>Found a security problem with <code>crackbot.in</code> or anything we publish? Email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a> with enough detail for us to reproduce it.<br />
+  Our contact details are also in <a href="/.well-known/security.txt">security.txt</a>.</p>
+  <p>We will acknowledge your report, keep you updated, and credit you if you would like.<br />
+  If you act in good faith and give us time to fix the issue, we won't take legal action against you.</p>
   <p>Please don't run denial-of-service tests or target our members with social engineering.</p>
 </Page>

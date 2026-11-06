@@ -1,7 +1,7 @@
 ---
 title: "Introducing Crackbot"
 summary: "Who we are, what we plan to publish, and how to reach us."
-date: 2026-11-01
+date: 2026-11-08
 topic: notes
 kind: Note
 authors: ["Crackbot Research"]

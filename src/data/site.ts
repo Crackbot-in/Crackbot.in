@@ -10,6 +10,10 @@ export const SITE = {
   securityEmail: 'researcher@crackbot.in',
   github: 'https://github.com/Crackbot-in',
   githubHandle: 'Crackbot-in',
+  // GoatCounter site code (the part before .goatcounter.com). Empty = analytics off.
+  // Uses a cookie-free tracking pixel, no JavaScript. When you set it, also add
+  // https://<code>.goatcounter.com to img-src in the CSP in vercel.json.
+  goatcounter: '',
 } as const;
 
 export const NAV = [

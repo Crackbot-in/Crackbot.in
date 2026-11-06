@@ -1,46 +1,184 @@
 ---
-// Cover art for a research post, generated at build time from its slug.
-// Animated with CSS only: the highlighted route draws itself and the target pulses.
+// Cover art for a research post. Each topic has its own motif, generated at build time
+// from the post's slug so every cover is different. Animated with CSS/SVG only.
+//   vulnerabilities -> a buffer overflowing into the return address
+//   malware         -> byte-entropy graph of a file with a packed section
+//   intelligence    -> infrastructure graph with a traced route
+//   forensics       -> event timeline across process / file / network / registry
+//   notes           -> ridgeline plot
+// Timing: 8s loop; classes d0..d15 delay by 0.5s steps.
 interface Props { seed: string; topic: string; label?: string; }
 const { seed, topic, label } = Astro.props;
 
 let h = 2166136261;
 for (const ch of seed) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
 const rand = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 10000) / 10000; };
+const id = ((h >>> 0) % 0xffffff).toString(16).toUpperCase().padStart(6, '0');
+const W = 800, H = 500;
+const f = (n: number) => n.toFixed(1);
+const slot = (x: number, x0: number, x1: number) => Math.min(15, Math.max(0, Math.floor(((x - x0) / (x1 - x0)) * 16)));
 
-const Wd = 800, Ht = 500;
-const nodes = Array.from({ length: 26 }, () => ({ x: 40 + rand() * (Wd - 80), y: 40 + rand() * (Ht - 100) }));
+// ---------- vulnerabilities ----------
+const cells = Array.from({ length: 14 }, (_, i) => i);
+const cellW = 44, cellX0 = 92, cellY = 200, cellH = 78;
+const regions = [
+  { from: 0, to: 9, name: 'char buf[64]' },
+  { from: 10, to: 10, name: 'canary' },
+  { from: 11, to: 11, name: 'saved rbp' },
+  { from: 12, to: 13, name: 'return address' },
+];
+
+// ---------- malware ----------
+const EX0 = 70, EX1 = 730, EY0 = 380, ES = 30; // y = EY0 - entropy * ES
+const N = 72;
+const packStart = Math.floor(N * (0.32 + rand() * 0.15));
+const packEnd = Math.min(N - 10, packStart + 14 + Math.floor(rand() * 8));
+const ent = Array.from({ length: N }, (_, i) => {
+  if (i < 3) return 1 + rand() * 1.5;
+  if (i >= packStart && i <= packEnd) return 7.6 + rand() * 0.35;
+  if (i > N - 9) return 2 + rand() * 2;
+  return 5.2 + rand() * 1.2;
+});
+const ex = (i: number) => EX0 + (i / (N - 1)) * (EX1 - EX0);
+const entD = ent.map((e, i) => `${i ? 'L' : 'M'}${f(ex(i))} ${f(EY0 - e * ES)}`).join(' ');
+const sections = [
+  { name: '.text', a: 3, b: packStart - 1 },
+  { name: 'packed', a: packStart, b: packEnd },
+  { name: '.data', a: packEnd + 1, b: N - 9 },
+  { name: '.rsrc', a: N - 8, b: N - 1 },
+];
+
+// ---------- intelligence ----------
+const nodes = Array.from({ length: 24 }, () => ({ x: 60 + rand() * (W - 120), y: 110 + rand() * 280 }));
 const edges: Array<[number, number]> = [];
 nodes.forEach((n, i) => {
-  nodes
-    .map((m, j) => ({ j, d: (m.x - n.x) ** 2 + (m.y - n.y) ** 2 }))
-    .filter((o) => o.j !== i)
-    .sort((a, b) => a.d - b.d)
-    .slice(0, 2)
+  nodes.map((m, j) => ({ j, d: (m.x - n.x) ** 2 + (m.y - n.y) ** 2 }))
+    .filter((o) => o.j !== i).sort((a, b) => a.d - b.d).slice(0, 2)
     .forEach((o) => { if (i < o.j) edges.push([i, o.j]); });
 });
-const sorted = nodes.map((n, i) => ({ ...n, i })).sort((a, b) => a.x - b.x);
-const route: number[] = [sorted[0].i];
-for (let k = 0; k < 5; k++) {
+const byX = nodes.map((n, i) => ({ ...n, i })).sort((a, b) => a.x - b.x);
+const route: number[] = [byX[0].i];
+for (let k = 0; k < 6; k++) {
   const cur = nodes[route[route.length - 1]];
-  const next = nodes
-    .map((m, j) => ({ j, m }))
+  const next = nodes.map((m, j) => ({ j, m }))
     .filter(({ j, m }) => !route.includes(j) && m.x > cur.x)
     .sort((a, b) => ((a.m.x - cur.x) ** 2 + (a.m.y - cur.y) ** 2) - ((b.m.x - cur.x) ** 2 + (b.m.y - cur.y) ** 2))[0];
   if (!next) break;
   route.push(next.j);
 }
-const hot = nodes[route[route.length - 1]];
-const routeD = route.map((i, k) => `${k ? 'L' : 'M'}${nodes[i].x.toFixed(1)} ${nodes[i].y.toFixed(1)}`).join(' ');
-const id = (h >>> 0).toString(16).slice(0, 6).toUpperCase();
+const routeD = route.map((i, k) => `${k ? 'L' : 'M'}${f(nodes[i].x)} ${f(nodes[i].y)}`).join(' ');
+const target = nodes[route[route.length - 1]];
+
+// ---------- forensics ----------
+const lanes = ['process', 'file', 'network', 'registry'];
+const TX0 = 150, TX1 = 740;
+const events = lanes.flatMap((_, li) =>
+  Array.from({ length: 5 + Math.floor(rand() * 4) }, () => ({ lane: li, x: TX0 + 10 + rand() * (TX1 - TX0 - 20) })),
+);
+const keyEvents = new Set([0, 1, 2, 3].map((li) => events.filter((e) => e.lane === li)[Math.floor(rand() * 3)]));
+
+// ---------- notes ----------
+const ridges = Array.from({ length: 10 }, (_, r) => {
+  const base = 150 + r * 25;
+  const amp = 20 + rand() * 40;
+  const c = 0.35 + rand() * 0.3;
+  const pts = Array.from({ length: 61 }, (_, i) => {
+    const t = i / 60;
+    const bump = Math.exp(-((t - c) ** 2) / 0.012) * amp + Math.exp(-((t - c - 0.12) ** 2) / 0.004) * amp * 0.5 * rand();
+    return { x: 80 + t * 640, y: base - bump - rand() * 4 };
+  });
+  return { base, d: pts.map((p, i) => `${i ? 'L' : 'M'}${f(p.x)} ${f(p.y)}`).join(' ') };
+});
+const hotRidge = Math.floor(rand() * ridges.length);
 ---
-<svg class={`plate plate-${topic}`} viewBox={`0 0 ${Wd} ${Ht}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-  {Array.from({ length: 9 }, (_, i) => <path class="p-grid" d={`M${(i + 1) * 80} 0 V${Ht}`} />)}
-  {Array.from({ length: 5 }, (_, i) => <path class="p-grid" d={`M0 ${(i + 1) * 80} H${Wd}`} />)}
-  {edges.map(([a, b]) => <path class="p-line" d={`M${nodes[a].x.toFixed(1)} ${nodes[a].y.toFixed(1)} L${nodes[b].x.toFixed(1)} ${nodes[b].y.toFixed(1)}`} />)}
-  <path class="p-hot p-draw" d={routeD} pathLength="1" />
-  {[0, 1, 2].map((k) => <circle class={`p-ring p-pulse p-pulse-${k}`} cx={hot.x.toFixed(1)} cy={hot.y.toFixed(1)} r="40" />)}
-  {nodes.map((n, i) => <circle class={route.includes(i) ? 'p-dot-hot' : 'p-dot'} cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r={route.includes(i) ? 4 : 2.5} />)}
-  <text class="p-text" x="24" y={Ht - 22}>{(label ?? topic).toUpperCase()}</text>
-  <text class="p-text" x={Wd - 24} y={Ht - 22} text-anchor="end">CB-{id}</text>
+<svg class={`plate plate-${topic}`} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  {Array.from({ length: 9 }, (_, i) => <path class="p-grid" d={`M${(i + 1) * 80} 0 V${H}`} />)}
+  {Array.from({ length: 5 }, (_, i) => <path class="p-grid" d={`M0 ${(i + 1) * 80} H${W}`} />)}
+
+  {topic === 'vulnerabilities' && (
+    <g>
+      <text class="p-text" x={cellX0} y={cellY - 46}>INPUT: 'A' x 112</text>
+      {cells.map((i) => (
+        <g>
+          <rect class="p-cell" x={cellX0 + i * cellW} y={cellY} width={cellW - 4} height={cellH} />
+          <rect class={`p-fill d${Math.min(15, i + 1)} ${i >= 12 ? 'p-fill-bad' : ''}`} x={cellX0 + i * cellW} y={cellY} width={cellW - 4} height={cellH} />
+          <text class="p-byte" x={cellX0 + i * cellW + (cellW - 4) / 2} y={cellY + cellH / 2 + 4} text-anchor="middle">41</text>
+        </g>
+      ))}
+      {regions.map((r) => (
+        <g>
+          <path class="p-line" d={`M${cellX0 + r.from * cellW} ${cellY + cellH + 14} H${cellX0 + r.to * cellW + cellW - 4}`} />
+          <text class="p-text" x={cellX0 + r.from * cellW} y={cellY + cellH + 34}>{r.name}</text>
+        </g>
+      ))}
+      <text class="p-text p-hotText d14" x={cellX0 + 12 * cellW} y={cellY - 14}>RIP = 0x4141414141414141</text>
+      <path class="p-hot" d={`M${cellX0} ${cellY - 24} H${cellX0 + 14 * cellW - 4}`} />
+    </g>
+  )}
+
+  {topic === 'malware' && (
+    <g>
+      {sections.map((sct, k) => (
+        <g>
+          <rect class={k === 1 ? 'p-band p-band-hot' : 'p-band'} x={ex(sct.a)} y="120" width={Math.max(2, ex(sct.b) - ex(sct.a))} height={EY0 - 120} />
+          <text class="p-text" x={ex(sct.a) + 6} y="138">{sct.name}</text>
+        </g>
+      ))}
+      {[0, 2, 4, 6, 8].map((e) => (
+        <g>
+          <path class="p-grid" d={`M${EX0} ${EY0 - e * ES} H${EX1}`} />
+          <text class="p-text" x={EX0 - 10} y={EY0 - e * ES + 4} text-anchor="end">{e}</text>
+        </g>
+      ))}
+      <path class="p-hot p-draw" d={entD} pathLength="1" />
+      <text class="p-text" x={EX0} y={EY0 + 26}>BYTE ENTROPY BY OFFSET</text>
+      <g class="anim">
+        <path class="p-cursor" d={`M${EX0} 120 V${EY0}`}>
+          <animateTransform attributeName="transform" type="translate" from="0 0" to={`${EX1 - EX0} 0`} dur="8s" repeatCount="indefinite" />
+        </path>
+      </g>
+    </g>
+  )}
+
+  {topic === 'intelligence' && (
+    <g>
+      {edges.map(([a, b]) => <path class="p-line" d={`M${f(nodes[a].x)} ${f(nodes[a].y)} L${f(nodes[b].x)} ${f(nodes[b].y)}`} />)}
+      <path class="p-hot p-draw" d={routeD} pathLength="1" />
+      {[0, 1, 2].map((k) => <circle class={`p-ring p-pulse p-pulse-${k}`} cx={f(target.x)} cy={f(target.y)} r="40" />)}
+      {nodes.map((n, i) => <circle class={route.includes(i) ? 'p-dot-hot' : 'p-dot'} cx={f(n.x)} cy={f(n.y)} r={route.includes(i) ? 4 : 2.5} />)}
+    </g>
+  )}
+
+  {topic === 'forensics' && (
+    <g>
+      {lanes.map((name, li) => (
+        <g>
+          <text class="p-text" x="60" y={150 + li * 70 + 4}>{name.toUpperCase()}</text>
+          <path class="p-line" d={`M${TX0} ${150 + li * 70} H${TX1}`} />
+        </g>
+      ))}
+      {events.map((e) => (
+        <rect class={keyEvents.has(e) ? `p-evt p-evt-hot d${slot(e.x, TX0, TX1)}` : `p-evt d${slot(e.x, TX0, TX1)}`} x={f(e.x - 3)} y={150 + e.lane * 70 - 12} width="6" height="24" />
+      ))}
+      <g class="anim">
+        <path class="p-cursor" d={`M${TX0} 120 V390`}>
+          <animateTransform attributeName="transform" type="translate" from="0 0" to={`${TX1 - TX0} 0`} dur="8s" repeatCount="indefinite" />
+        </path>
+      </g>
+    </g>
+  )}
+
+  {topic === 'notes' && (
+    <g>
+      {ridges.map((r, i) => (
+        <g>
+          <path class="p-occlude" d={`${r.d} L720 ${r.base + 30} L80 ${r.base + 30} Z`} />
+          <path class={i === hotRidge ? 'p-hot p-draw' : 'p-line p-ridge'} d={r.d} pathLength="1" />
+        </g>
+      ))}
+    </g>
+  )}
+
+  <text class="p-text" x="24" y={H - 22}>{(label ?? topic).toUpperCase()}</text>
+  <text class="p-text" x={W - 24} y={H - 22} text-anchor="end">CB-{id}</text>
 </svg>
