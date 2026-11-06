@@ -9,8 +9,20 @@ import { SITE } from '../data/site';
   intro="How we report vulnerabilities, and how to report one to us."
 >
   <h2>When we find a vulnerability</h2>
-  <p>If we find a vulnerability, including a zero-day, we report it privately to the vendor. If we can't reach them, we go through CERT-In or the relevant national CERT.</p>
-  <p>We agree a timeline with the vendor before anything is published, normally up to 90 days. If a vulnerability is already being exploited, we may publish sooner so people can protect themselves.</p>
+  <p>If we find a vulnerability, including a zero-day, we report it privately to the vendor first. If we can't reach them, we go through CERT.</p>
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>What happens</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 0</td><td>We send the vendor a report with affected versions, impact, reproduction steps and a contact.</td></tr>
+      <tr><td>Within 14 days</td><td>We expect an acknowledgement. If we hear nothing, we try other channels, including CERT.</td></tr>
+      <tr><td>Day 90</td><td>We publish our write-up, or earlier if a fix has shipped and the vendor agrees.</td></tr>
+      <tr><td>Extensions</td><td>If a fix is close and the vendor is working with us, we will usually agree to one extension of up to 30 days.</td></tr>
+      <tr><td>Exploited in the wild</td><td>If we see the vulnerability being actively exploited, we may publish after 7 days so people can protect themselves.</td></tr>
+    </tbody>
+  </table>
+  <p>Our write-ups include mitigation or detection advice. We don't publish working exploit code for unpatched issues.</p>
 
   <h2>Reporting a vulnerability to us</h2>
   <p>Found a security problem with <code>crackbot.in</code> or anything we publish? Email <a href={`mailto:${SITE.securityEmail}`}>{SITE.securityEmail}</a> with enough detail for us to reproduce it. Our contact details are also in <a href="/.well-known/security.txt">security.txt</a>.</p>

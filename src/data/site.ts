@@ -5,7 +5,7 @@ export const SITE = {
   name: 'Crackbot',
   url: 'https://crackbot.in',
   description:
-    'Crackbot is a small, independent security research group and think tank. We research vulnerabilities, malware and threat activity, and share what we learn with the community.',
+    'Crackbot is an independent security research group and think tank. We research vulnerabilities, malware and threat activity, and share what we learn with the community.',
   email: 'support@crackbot.in',
   securityEmail: 'researcher@crackbot.in',
   github: 'https://github.com/Crackbot-in',
@@ -52,7 +52,7 @@ export const TOPICS: Record<TopicKey, { label: string; short: string; blurb: str
 export const PRINCIPLES = [
   {
     title: 'Permission first',
-    body: 'We test our own systems, public bug bounty scopes, or systems we have been given permission to test.',
+    body: 'We test on our own systems, public bug bounty scopes, or systems we have been given permission to test.',
   },
   {
     title: 'Report before we publish',

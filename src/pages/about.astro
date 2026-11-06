@@ -6,16 +6,16 @@ import { PRINCIPLES, SITE } from '../data/site';
   title="About"
   label="About"
   heading="About Crackbot"
-  intro="A small security research group and think tank."
+  intro="A security research group and think tank."
 >
   <p>We all work in cyber security. Crackbot is how we give something back to the community we learned from: we research, write up what we find, and share tools when they are ready.</p>
-  <p>We are independent. We don't sell products, and nobody outside the group decides what we publish.</p>
+  <p>We are independent, and nobody outside the group decides what we publish.</p>
 
   <h2>How we work</h2>
   <ul>
     {PRINCIPLES.map((p) => <li><strong>{p.title}.</strong> {p.body}</li>)}
   </ul>
 
-  <h2>Get involved</h2>
-  <p>We are happy to hear from other researchers and students who want to work on real problems. Our code is on <a href={SITE.github} rel="noopener noreferrer">GitHub</a>. If you would like to join in, <a href="/contact/">get in touch</a>.</p>
+  <h2>Find us</h2>
+  <p>Our code is on <a href={SITE.github} rel="noopener noreferrer">GitHub</a>. For anything else, see the <a href="/contact/">contact page</a>.</p>
 </Page>

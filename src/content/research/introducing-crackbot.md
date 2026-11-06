@@ -7,7 +7,7 @@ kind: Note
 authors: ["Crackbot Research"]
 ---
 
-Crackbot is a small group of people who work in cyber security. We started it because we wanted to give something back to the community we learned from.
+Crackbot is a group of people who work in cyber security. We started it because we wanted to give something back to the community we learned from.
 
 ## What we'll publish
 

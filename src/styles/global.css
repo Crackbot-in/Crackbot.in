@@ -105,7 +105,6 @@ html {
   *::before,
   *::after {
     transition: none !important;
-    animation: none !important;
   }
 }
 
@@ -1106,7 +1105,7 @@ main:has(> .band:last-child) + .site-footer {
 .mark-crack {
   fill: none;
   stroke: var(--bg);
-  stroke-width: 2.4;
+  stroke-width: 3;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
@@ -1196,7 +1195,7 @@ main:has(> .band:last-child) + .site-footer {
 }
 
 /* ==========================================================================
-   Motion (CSS + SVG only). Disabled for prefers-reduced-motion.
+   Motion (CSS + SVG only). Slow, no flashing; runs on every device.
    ========================================================================== */
 .fg-flash {
   fill: var(--accent-soft);
@@ -1243,16 +1242,3 @@ main:has(> .band:last-child) + .site-footer {
   100% { transform: scale(1.4); opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .anim {
-    display: none;
-  }
-  .p-draw {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-  }
-  .p-pulse {
-    opacity: 0.4;
-    transform: none;
-  }
-}
