@@ -26,4 +26,5 @@ We test systems we own or have permission to test. If we find a vulnerability, i
 
 ## Get in touch
 
-For general questions, email [support@crackbot.in](mailto:support@crackbot.in). For security reports, email [researcher@crackbot.in](mailto:researcher@crackbot.in).
+For general questions, email [support@crackbot.in](mailto:support@crackbot.in). 
+For security reports, email [researcher@crackbot.in](mailto:researcher@crackbot.in).
