@@ -1,0 +1,27 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../data/site';
+---
+<Page
+  title="Privacy"
+  label="Policy"
+  heading="Privacy"
+  intro="What this site collects, which is very little."
+>
+  <h2>What we collect</h2>
+  <p>This site sets no cookies and runs no third-party scripts. The only script is a small file that remembers your light or dark theme choice in your own browser. It never leaves your device.</p>
+  {SITE.goatcounter ? (
+    <p>We count visits with GoatCounter. It records the page, the referring site and a rough location from your IP address, without cookies and without storing the IP address itself.</p>
+  ) : (
+    <p>We don't run analytics.</p>
+  )}
+
+  <h2>Hosting</h2>
+  <p>The site is hosted on Vercel. Like any web host, Vercel keeps standard server logs, which include IP addresses, for security and operations.</p>
+
+  <h2>Email</h2>
+  <p>If you email us, we keep your message and address only as long as we need them to reply or to handle your report.</p>
+
+  <h2>Questions</h2>
+  <p>Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</Page>

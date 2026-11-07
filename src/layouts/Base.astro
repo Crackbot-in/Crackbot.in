@@ -9,10 +9,13 @@ interface Props {
   description?: string;
   type?: 'website' | 'article';
   published?: Date;
+  /** Share image path or URL; defaults to /og.png */
+  image?: string;
 }
-const { title, description = SITE.description, type = 'website', published } = Astro.props;
+const { title, description = SITE.description, type = 'website', published, image = '/og.png' } = Astro.props;
 const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | Security research group & think tank`;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const imageUrl = new URL(image, SITE.url).href;
 ---
 <!doctype html>
 <html lang="en">
@@ -28,13 +31,17 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
     <meta name="theme-color" content="#0f1012" media="(prefers-color-scheme: dark)" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title="Crackbot research" href="/rss.xml" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title ?? SITE.name} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content="Crackbot" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imageUrl} />
     {published && <meta property="article:published_time" content={published.toISOString()} />}
   </head>
   <body>

@@ -1,0 +1,39 @@
+# Build check for every pull request and push to main.
+# Nothing here deploys; Vercel deploys on its own. This makes sure a change builds
+# cleanly and has no known-vulnerable dependencies before it is merged.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Actions are pinned to exact commits so a hijacked tag can't change what runs.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm audit --omit=dev --audit-level=moderate
+      - name: No inline scripts or styles in output (CSP)
+        run: |
+          if grep -rlE '<script>|<script [^>]*>[^<]|style="' dist --include=*.html; then
+            echo "Inline script or style found; the CSP will block it." >&2
+            exit 1
+          fi

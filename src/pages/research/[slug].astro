@@ -16,7 +16,7 @@ const d = post.data;
 const topic = TOPICS[d.topic];
 const subject = encodeURIComponent(`Correction: ${d.title}`);
 ---
-<Base title={d.title} description={d.summary} type="article" published={d.date}>
+<Base title={d.title} description={d.summary} type="article" published={d.date} image={d.cover && !d.cover.src.endsWith('.svg') ? d.cover.src : undefined}>
   <article>
     <header class="article-head">
       <div class="wrap">
