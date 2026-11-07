@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="halo" cx="76%" cy="46%" r="40%">
+      <stop offset="0" stop-color="#ff5a3c" stop-opacity="0.34"/>
+      <stop offset="0.6" stop-color="#ff5a3c" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#ff5a3c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#0d0f13"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <g stroke="#1b2029" stroke-width="1" fill="none">
+    <path d="M910 400 L310 700"/><path d="M910 400 L510 700"/><path d="M910 400 L710 700"/><path d="M910 400 L910 700"/>
+    <path d="M910 400 L1110 700"/><path d="M910 400 L1310 700"/><path d="M910 400 L1510 700"/>
+    <path d="M600 470 H1200"/><path d="M600 500 H1200"/><path d="M600 545 H1200"/><path d="M600 605 H1200"/>
+  </g>
+  <g transform="translate(798 168) scale(7)" filter="url(#glow)">
+    <path d="M16 1 L29.5 5.5 V15.5 C29.5 23.6 24 28.9 16 31 C8 28.9 2.5 23.6 2.5 15.5 V5.5 Z" fill="#12151b" stroke="#ff5a3c" stroke-width="0.75" stroke-linejoin="round"/>
+    <path d="M18 1.5 L13.2 13 L19 17.2 L14.8 30.5" fill="none" stroke="#0d0f13" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M18 1.5 L13.2 13 L19 17.2 L14.8 30.5" fill="none" stroke="#ffffff" stroke-width="0.45" stroke-linejoin="round"/>
+  </g>
+  <text x="80" y="150" fill="#8a909c" font-family="Consolas, Menlo, monospace" font-size="22" letter-spacing="5">SECURITY RESEARCH GROUP &amp; THINK TANK</text>
+  <text x="76" y="300" fill="#ecebe6" font-family="Georgia, 'Times New Roman', serif" font-size="112">Crackbot</text>
+  <text x="80" y="375" fill="#b9b8b2" font-family="'Segoe UI', Arial, sans-serif" font-size="32">Security research, shared with the community.</text>
+  <text x="80" y="560" fill="#ff6b4a" font-family="Consolas, Menlo, monospace" font-size="24" letter-spacing="2">www.crackbot.in</text>
+</svg>

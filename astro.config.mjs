@@ -4,7 +4,7 @@ import { defineConfig, passthroughImageService } from 'astro/config';
 // Fully static site: no server runtime, no API routes, no client JS.
 // Smallest possible attack surface — there is nothing on the server to exploit.
 export default defineConfig({
-  site: 'https://crackbot.in',
+  site: 'https://www.crackbot.in',
   output: 'static',
   // Keep whitespace as written so text next to links never loses its space.
   compressHTML: false,

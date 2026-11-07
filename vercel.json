@@ -6,6 +6,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/security.txt", "destination": "/.well-known/security.txt", "permanent": true },
     { "source": "/blog", "destination": "/research/", "permanent": true },
     { "source": "/blog/:slug", "destination": "/research/:slug/", "permanent": true },
     { "source": "/tools", "destination": "/about/", "permanent": false },

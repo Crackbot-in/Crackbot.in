@@ -3,7 +3,7 @@
 
 export const SITE = {
   name: 'Crackbot',
-  url: 'https://crackbot.in',
+  url: 'https://www.crackbot.in',
   description:
     'Crackbot is an independent security research group and think tank. We research vulnerabilities, malware and threat activity, and share what we learn with the community.',
   email: 'support@crackbot.in',
